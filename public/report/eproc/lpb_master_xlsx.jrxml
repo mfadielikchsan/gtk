@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="018f5d06-6ef2-4a85-be9c-d7e771760459">
+	<property name="ireport.zoom" value="1.3310000000000006"/>
+	<property name="ireport.x" value="150"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="logo" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="kd_supp" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="no_lpbs" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select distinct lpb1.kd_supp, (select b.nama from b_suppliers b where b.kd_supp = lpb1.kd_supp)||' - '||lpb1.kd_supp nm_supp, lpb2.no_po 
+from baan_lpb1s lpb1, baan_lpb2s lpb2
+where lpb1.no_lpb = lpb2.no_lpb 
+and (lpb1.kd_supp = $P{kd_supp} or $P{kd_supp} = '-') 
+and lpb1.no_lpb in ($P!{no_lpbs}) 
+order by 1, 3]]>
+	</queryString>
+	<field name="kd_supp" class="java.lang.String"/>
+	<field name="nm_supp" class="java.lang.String"/>
+	<field name="no_po" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="35">
+			<image scaleImage="FillFrame" onErrorType="Icon">
+				<reportElement isPrintRepeatedValues="false" x="0" y="0" width="80" height="30" uuid="d8fec923-2d3a-468b-8599-221aba81078f"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="515" y="0" width="287" height="15" uuid="0d1fd242-ee6f-4915-bc6b-b83521385007"/>
+				<box leftPadding="0" rightPadding="2"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REKAP LAPORAN PENERIMAAN BARANG]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="515" y="15" width="287" height="15" uuid="083fb122-2507-447f-abd5-7e70b0a559e8"/>
+				<box leftPadding="0" rightPadding="2"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Property of Inti Ganda Perdana]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="32" width="802" height="1" uuid="6c1cf4c3-d100-41e0-8df7-c047d9436403"/>
+			</line>
+		</band>
+	</title>
+	<detail>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="802" height="50" uuid="00a4c145-33ff-46df-85b9-1c34cc2ffe00"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="logo">
+					<subreportParameterExpression><![CDATA[$P{logo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="no_po">
+					<subreportParameterExpression><![CDATA[$F{no_po}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="kd_supp">
+					<subreportParameterExpression><![CDATA[$F{kd_supp}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="no_lpbs">
+					<subreportParameterExpression><![CDATA[$P{no_lpbs}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "lpb_excel.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="13">
+			<textField pattern="dd MMM yyyy HH:mm:ss">
+				<reportElement x="0" y="0" width="37" height="13" uuid="2132b5bb-0c47-4fd8-bd46-873661f497ef"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Printed on "]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd MMM yyyy HH:mm:ss">
+				<reportElement x="37" y="0" width="214" height="13" uuid="9f24d326-3daa-4ce5-ad7a-fc7ae0180e9a"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="762" y="0" width="40" height="13" uuid="1940bfaf-c0d8-448b-a19f-53c2fd5cafd8"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="682" y="0" width="80" height="13" uuid="f6f4db2b-f99f-4187-bcda-ebc2486a31ff"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

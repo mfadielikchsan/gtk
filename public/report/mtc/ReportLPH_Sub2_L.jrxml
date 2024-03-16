@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="812" pageHeight="565" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="812" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="b12e1461-f2c2-4eb5-91b6-f20b18705cbe">
+	<property name="ireport.zoom" value="1.4641000000000006"/>
+	<property name="ireport.x" value="207"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="tgl1" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="lok_pt" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="shift" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="kd_line" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="kd_mesin" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="info_kerja" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="npk" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="line_stop" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT T1.SHIFT, T1.KD_MESIN AS MESIN, FNM_LINEX(T1.KD_LINE) LINE, 
+T1.URAIAN_PROB, T1.URAIAN_PENYEBAB, T1.LANGKAH_KERJA, T1.CATATAN, 
+TO_CHAR(T1.EST_JAMSTART,'HH24:MI') ESTJAMSTART, TO_CHAR(T1.EST_JAMEND,'HH24:MI') ESTJAMEND, 
+COALESCE(T1.EST_DURASI,0) EST_DURASI, COALESCE(T1.LINE_STOP,0) LINE_STOP
+FROM TMTCWO1 T1
+WHERE TO_CHAR(T1.TGL_WO,'YYYYMMDD') = TO_CHAR($P{tgl1}::date,'YYYYMMDD')
+AND T1.LOK_PT = $P{lok_pt}
+AND (T1.SHIFT = $P{shift} OR $P{shift} = '')
+AND (T1.KD_LINE = $P{kd_line} OR $P{kd_line} = '')
+AND (T1.KD_MESIN = $P{kd_mesin} OR $P{kd_mesin} = '')
+AND COALESCE(T1.INFO_KERJA,'-') = $P{info_kerja}
+AND COALESCE(T1.LINE_STOP,0) >= COALESCE($P{line_stop},0)
+AND EXISTS (SELECT 1 FROM MTCM_NPK WHERE MTCM_NPK.NPK = $P{npk} AND MTCM_NPK.KD_PLANT = T1.LOK_PT)
+ORDER BY T1.EST_JAMSTART, T1.KD_MESIN]]>
+	</queryString>
+	<field name="shift" class="java.lang.String"/>
+	<field name="mesin" class="java.lang.String"/>
+	<field name="line" class="java.lang.String"/>
+	<field name="uraian_prob" class="java.lang.String"/>
+	<field name="uraian_penyebab" class="java.lang.String"/>
+	<field name="langkah_kerja" class="java.lang.String"/>
+	<field name="catatan" class="java.lang.String"/>
+	<field name="estjamstart" class="java.lang.String"/>
+	<field name="estjamend" class="java.lang.String"/>
+	<field name="est_durasi" class="java.lang.Integer"/>
+	<field name="line_stop" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="20" height="30" uuid="fa6d2674-6a29-45d8-9bea-7c4aeded917d"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Shift]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="0" width="60" height="30" uuid="09ee53d8-df6b-4097-b7cc-f00660f6b762"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Mesin]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="0" width="110" height="30" uuid="7013a940-8278-4996-8bd9-3b71e4507413"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Line]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="190" y="0" width="140" height="30" uuid="58484300-4942-4530-b0f8-a2555adb623b"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Problem]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="470" y="0" width="146" height="30" uuid="11374a5d-69e3-47bb-8669-3fd6376e2c21"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font size="8" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Counter Measure]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="762" y="0" width="50" height="30" uuid="0e4979de-7c30-465d-b686-8f38ebb6d987"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Total Line Stop]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="330" y="0" width="140" height="30" uuid="f68122f5-f34a-4450-9023-c6a9d64bea00"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Root Cause]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="616" y="0" width="146" height="30" uuid="861cdefa-083a-4d99-ad70-0fca77136099"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font size="8" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Prevention]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="20" height="15" uuid="fe2383b5-7908-40c0-969e-fa92460323b8"/>
+				<box topPadding="1">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{shift}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="20" y="0" width="60" height="15" uuid="9d1dcc06-1a8f-48be-b83d-114dea55c94a"/>
+				<box topPadding="1" leftPadding="2">
+					<topPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mesin}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="80" y="0" width="110" height="15" uuid="79e1f9bd-d90d-4219-b2a3-b461a0b48858"/>
+				<box topPadding="1" leftPadding="2">
+					<topPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{line}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="190" y="0" width="140" height="15" uuid="aaefddf3-e264-4650-b927-af1f408d2ace"/>
+				<box topPadding="1" leftPadding="2" rightPadding="0">
+					<topPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{uraian_prob}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="470" y="0" width="146" height="15" uuid="fde0707f-f533-4849-af14-8822c42686c7"/>
+				<box topPadding="1" leftPadding="2">
+					<topPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{langkah_kerja}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="762" y="0" width="50" height="15" uuid="bb2fb2ca-8125-4bca-92e8-3aa05e019b26"/>
+				<box topPadding="1" leftPadding="0" rightPadding="2">
+					<topPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{line_stop}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="330" y="0" width="140" height="15" uuid="72381ac8-2fc4-41f8-bd73-2e9a5228cbf0"/>
+				<box topPadding="1" leftPadding="2" rightPadding="0">
+					<topPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{uraian_penyebab}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="616" y="0" width="146" height="15" uuid="51cfda9e-a959-4519-a689-4ec21592f676"/>
+				<box topPadding="1" leftPadding="2">
+					<topPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{catatan}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="35">
+			<subreport>
+				<reportElement x="0" y="5" width="812" height="30" uuid="674f9900-5006-48fe-a9b3-94b3c0d83c64"/>
+				<subreportParameter name="line_stop">
+					<subreportParameterExpression><![CDATA[$P{line_stop}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="tgl1">
+					<subreportParameterExpression><![CDATA[$P{tgl1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="kd_line">
+					<subreportParameterExpression><![CDATA[$P{kd_line}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="kd_mesin">
+					<subreportParameterExpression><![CDATA[$P{kd_mesin}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="info_kerja">
+					<subreportParameterExpression><![CDATA[$P{info_kerja}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="npk">
+					<subreportParameterExpression><![CDATA[$P{npk}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="lok_pt">
+					<subreportParameterExpression><![CDATA[$P{lok_pt}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="shift">
+					<subreportParameterExpression><![CDATA[$P{shift}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "ReportLPH_Sub3_L.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

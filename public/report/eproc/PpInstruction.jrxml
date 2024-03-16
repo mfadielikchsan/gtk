@@ -1,0 +1,633 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="581" leftMargin="7" rightMargin="7" topMargin="7" bottomMargin="7" uuid="bf269df4-969b-493b-b259-d79e3cf1e6cd">
+	<property name="ireport.zoom" value="1.3310000000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="no_pp" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT PP.PP, TO_CHAR(PP.T$PONO) PONO, PP.TGLPP, 
+NVL(TO_CHAR((SELECT I1.TGLTRK FROM BAANDB.VIGPUR001 I1 WHERE I1.NOPP = PP.PP AND ROWNUM = 1),'DD/MM/YYYY'), '-') TGL_TARIK,
+NVL((SELECT I1.PICTRK FROM BAANDB.VIGPUR001 I1 WHERE I1.NOPP = PP.PP AND ROWNUM = 1), '-') PIC_TARIK,
+PP.DEPT, (SELECT DEP.NAMADEP FROM BAANDB.DEPTVIEW DEP WHERE DEP.KODEDEP = PP.DEPT AND ROWNUM = 1) NMREQUESTER,
+PP.ITEMB, (SELECT NVL(GID.ITEMDESC, GID.DESC1) FROM BAANDB.ITEMVIGP GID WHERE GID.ITEM = PP.ITEMB AND ROWNUM = 1) NM_ITEM, 
+(SELECT NVL(TRIM(GID.SK), '-') FROM BAANDB.ITEMVIGP GID WHERE GID.ITEM = PP.ITEMB AND ROWNUM = 1) SEAK,
+PP.QTYPP, PP.UNIT, PP.REMN, PP.REFA, PP.REFB, PP.DLDT, PP.T$RQST, PP.T$PACN, PP.T$DIM1, PP.PPTEXT, 
+(SELECT POPREV||' - '||NMVEND
+  FROM (
+    SELECT PO.NOPO||' - '||TO_CHAR(PO.TGLPO,'DD/MM/YYYY') POPREV, PO.KURS CURR, PO.HARGA PRICE, PO.KODESUPP VEND, BP.NAMASUP NMVEND, TRIM(PO.ITEMB) ITEMB 
+    FROM BAANDB.POVIEW PO, BAANDB.BPVIEW BP
+    WHERE PO.KODESUPP = BP.KODESUP 
+    AND TRIM(PO.T$RQNO) <> $P{no_pp} 
+    AND TO_CHAR(PO.TGLPO,'YYYYMMDD') <= TO_CHAR(NVL((SELECT I1.TGLTRK FROM BAANDB.VIGPUR001 I1 WHERE I1.NOPP = $P{no_pp} AND ROWNUM = 1), (SELECT TO_DATE(P.TGLPP,'DD/MM/YYYY HH24:MI:SS') FROM BAANDB.PPVIEW P WHERE P.PP = $P{no_pp} AND ROWNUM = 1)), 'YYYYMMDD') 
+    AND PO.ITEMB IN (SELECT P.ITEMB FROM BAANDB.PPVIEW P WHERE P.PP = $P{no_pp}) 
+    ORDER BY PO.TGLPO DESC
+  ) WHERE ITEMB = PP.ITEMB AND ROWNUM = 1
+) PO_TERAKHIR, 
+(SELECT CURR
+  FROM (
+    SELECT PO.NOPO||' - '||TO_CHAR(PO.TGLPO,'DD/MM/YYYY') POPREV, PO.KURS CURR, PO.HARGA PRICE, PO.KODESUPP VEND, BP.NAMASUP NMVEND, TRIM(PO.ITEMB) ITEMB 
+    FROM BAANDB.POVIEW PO, BAANDB.BPVIEW BP
+    WHERE PO.KODESUPP = BP.KODESUP 
+    AND TRIM(PO.T$RQNO) <> $P{no_pp} 
+    AND TO_CHAR(PO.TGLPO,'YYYYMMDD') <= TO_CHAR(NVL((SELECT I1.TGLTRK FROM BAANDB.VIGPUR001 I1 WHERE I1.NOPP = $P{no_pp} AND ROWNUM = 1), (SELECT TO_DATE(P.TGLPP,'DD/MM/YYYY HH24:MI:SS') FROM BAANDB.PPVIEW P WHERE P.PP = $P{no_pp} AND ROWNUM = 1)), 'YYYYMMDD') 
+    AND PO.ITEMB IN (SELECT P.ITEMB FROM BAANDB.PPVIEW P WHERE P.PP = $P{no_pp}) 
+    ORDER BY PO.TGLPO DESC
+  ) WHERE ITEMB = PP.ITEMB AND ROWNUM = 1
+) CURR_TERAKHIR, 
+(SELECT PRICE
+  FROM (
+    SELECT PO.NOPO||' - '||TO_CHAR(PO.TGLPO,'DD/MM/YYYY') POPREV, PO.KURS CURR, PO.HARGA PRICE, PO.KODESUPP VEND, BP.NAMASUP NMVEND, TRIM(PO.ITEMB) ITEMB
+    FROM BAANDB.POVIEW PO, BAANDB.BPVIEW BP
+    WHERE PO.KODESUPP = BP.KODESUP 
+    AND TRIM(PO.T$RQNO) <> $P{no_pp} 
+    AND TO_CHAR(PO.TGLPO,'YYYYMMDD') <= TO_CHAR(NVL((SELECT I1.TGLTRK FROM BAANDB.VIGPUR001 I1 WHERE I1.NOPP = $P{no_pp} AND ROWNUM = 1), (SELECT TO_DATE(P.TGLPP,'DD/MM/YYYY HH24:MI:SS') FROM BAANDB.PPVIEW P WHERE P.PP = $P{no_pp} AND ROWNUM = 1)), 'YYYYMMDD') 
+    AND PO.ITEMB IN (SELECT P.ITEMB FROM BAANDB.PPVIEW P WHERE P.PP = $P{no_pp}) 
+    ORDER BY PO.TGLPO DESC
+  ) WHERE ITEMB = PP.ITEMB AND ROWNUM = 1
+) HARGA_TERAKHIR, 
+(SELECT POPREV_END||' - '||NMVEND_END
+  FROM (
+    SELECT PO.NOPO||' - '||TO_CHAR(PO.TGLPO,'DD/MM/YYYY') POPREV_END, PO.KURS CURR_END, PO.HARGA PRICE_END, PO.KODESUPP VEND_END, BP.NAMASUP NMVEND_END, TRIM(PO.ITEMB) ITEMB
+    FROM BAANDB.POVIEW PO, BAANDB.BPVIEW BP
+    WHERE PO.KODESUPP = BP.KODESUP 
+    AND TRIM(PO.T$RQNO) <> $P{no_pp} 
+    AND TO_CHAR(PO.TGLPO,'YYYYMMDD') <= TO_CHAR(NVL((SELECT I1.TGLTRK FROM BAANDB.VIGPUR001 I1 WHERE I1.NOPP = $P{no_pp} AND ROWNUM = 1), (SELECT TO_DATE(P.TGLPP,'DD/MM/YYYY HH24:MI:SS') FROM BAANDB.PPVIEW P WHERE P.PP = $P{no_pp} AND ROWNUM = 1)), 'YYYYMMDD') 
+    AND PO.ITEMB IN (SELECT P.ITEMB FROM BAANDB.PPVIEW P WHERE P.PP = $P{no_pp}) 
+    ORDER BY PO.HARGA ASC
+  ) WHERE ITEMB = PP.ITEMB AND ROWNUM = 1
+) PO_TERENDAH, 
+(SELECT CURR_END
+  FROM (
+    SELECT PO.NOPO||' - '||TO_CHAR(PO.TGLPO,'DD/MM/YYYY') POPREV_END, PO.KURS CURR_END, PO.HARGA PRICE_END, PO.KODESUPP VEND_END, BP.NAMASUP NMVEND_END, TRIM(PO.ITEMB) ITEMB
+    FROM BAANDB.POVIEW PO, BAANDB.BPVIEW BP
+    WHERE PO.KODESUPP = BP.KODESUP 
+    AND TRIM(PO.T$RQNO) <> $P{no_pp} 
+    AND TO_CHAR(PO.TGLPO,'YYYYMMDD') <= TO_CHAR(NVL((SELECT I1.TGLTRK FROM BAANDB.VIGPUR001 I1 WHERE I1.NOPP = $P{no_pp} AND ROWNUM = 1), (SELECT TO_DATE(P.TGLPP,'DD/MM/YYYY HH24:MI:SS') FROM BAANDB.PPVIEW P WHERE P.PP = $P{no_pp} AND ROWNUM = 1)), 'YYYYMMDD') 
+    AND PO.ITEMB IN (SELECT P.ITEMB FROM BAANDB.PPVIEW P WHERE P.PP = $P{no_pp}) 
+    ORDER BY PO.HARGA ASC
+  ) WHERE ITEMB = PP.ITEMB AND ROWNUM = 1
+) CURR_TERENDAH,
+(SELECT PRICE_END
+  FROM (
+    SELECT PO.NOPO||' - '||TO_CHAR(PO.TGLPO,'DD/MM/YYYY') POPREV_END, PO.KURS CURR_END, PO.HARGA PRICE_END, PO.KODESUPP VEND_END, BP.NAMASUP NMVEND_END, TRIM(PO.ITEMB) ITEMB
+    FROM BAANDB.POVIEW PO, BAANDB.BPVIEW BP
+    WHERE PO.KODESUPP = BP.KODESUP 
+    AND TRIM(PO.T$RQNO) <> $P{no_pp} 
+    AND TO_CHAR(PO.TGLPO,'YYYYMMDD') <= TO_CHAR(NVL((SELECT I1.TGLTRK FROM BAANDB.VIGPUR001 I1 WHERE I1.NOPP = $P{no_pp} AND ROWNUM = 1), (SELECT TO_DATE(P.TGLPP,'DD/MM/YYYY HH24:MI:SS') FROM BAANDB.PPVIEW P WHERE P.PP = $P{no_pp} AND ROWNUM = 1)), 'YYYYMMDD') 
+    AND PO.ITEMB IN (SELECT P.ITEMB FROM BAANDB.PPVIEW P WHERE P.PP = $P{no_pp}) 
+    ORDER BY PO.HARGA ASC
+  ) WHERE ITEMB = PP.ITEMB AND ROWNUM = 1
+) HARGA_TERENDAH, 
+(
+  SELECT MST_HRG 
+  FROM (
+    SELECT PB.CURN||' '||PB.BAPR||' ('||BP.NAMASUP||' #En.DT:'||TO_CHAR(PB.ENDT,'DD-MM-YY')||' #Ef.DT:'||TO_CHAR(PB.EFDT,'DD-MM-YY')||')' MST_HRG, TRIM(PB.ITEM) ITEM
+    FROM BAANDB.PRICBOOK PB, BAANDB.BPVIEW BP 
+    WHERE PB.BFBP = BP.KODESUP
+    AND TRIM(PB.ITEM) IN (SELECT P.ITEMB FROM BAANDB.PPVIEW P WHERE P.PP = $P{no_pp})
+    ORDER BY PB.ENDT DESC, BP.NAMASUP
+  ) WHERE ITEM = PP.ITEMB AND ROWNUM = 1
+) MST_HRG, 
+TRIM(PP.NOIA) NOIA, PP.NOURUT  
+FROM BAANDB.PPVIEW PP
+WHERE PP.PP = $P{no_pp} 
+ORDER BY PP.T$PONO]]>
+	</queryString>
+	<field name="PP" class="java.lang.String"/>
+	<field name="PONO" class="java.lang.String"/>
+	<field name="TGLPP" class="java.lang.String"/>
+	<field name="TGL_TARIK" class="java.lang.String"/>
+	<field name="PIC_TARIK" class="java.lang.String"/>
+	<field name="DEPT" class="java.lang.String"/>
+	<field name="NMREQUESTER" class="java.lang.String"/>
+	<field name="ITEMB" class="java.lang.String"/>
+	<field name="NM_ITEM" class="java.lang.String"/>
+	<field name="SEAK" class="java.lang.String"/>
+	<field name="QTYPP" class="java.math.BigDecimal"/>
+	<field name="UNIT" class="java.lang.String"/>
+	<field name="REMN" class="java.lang.String"/>
+	<field name="REFA" class="java.lang.String"/>
+	<field name="REFB" class="java.lang.String"/>
+	<field name="DLDT" class="java.sql.Timestamp"/>
+	<field name="T$RQST" class="java.math.BigDecimal"/>
+	<field name="T$PACN" class="java.lang.String"/>
+	<field name="T$DIM1" class="java.lang.String"/>
+	<field name="PPTEXT" class="java.lang.String"/>
+	<field name="PO_TERAKHIR" class="java.lang.String"/>
+	<field name="CURR_TERAKHIR" class="java.lang.String"/>
+	<field name="HARGA_TERAKHIR" class="java.math.BigDecimal"/>
+	<field name="PO_TERENDAH" class="java.lang.String"/>
+	<field name="CURR_TERENDAH" class="java.lang.String"/>
+	<field name="HARGA_TERENDAH" class="java.math.BigDecimal"/>
+	<field name="MST_HRG" class="java.lang.String"/>
+	<field name="NOIA" class="java.lang.String"/>
+	<field name="NOURUT" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="20" splitType="Stretch">
+			<textField evaluationTime="Report">
+				<reportElement x="528" y="0" width="53" height="15" uuid="a5adf65a-2968-46c7-8e2d-01347dd3cba0"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="426" y="0" width="102" height="15" uuid="9b5fbd23-b8e8-4a92-adda-44907c42457d"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="160" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="0" width="581" height="155" uuid="22707fe1-4eb0-4a07-8b60-3dea612695ec"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<staticText>
+					<reportElement x="0" y="0" width="85" height="15" uuid="d9b3146b-8f28-4710-aff7-0e6b40882884"/>
+					<box leftPadding="2"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[No PP / Pos No]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="15" width="85" height="15" uuid="1a3518cb-680c-4079-84b1-206503a393f0"/>
+					<box leftPadding="2"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[Tgl Regis/Tarik]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="30" width="85" height="15" uuid="8d12992e-6b81-4d04-9b9a-50893c41ad5c"/>
+					<box leftPadding="2"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[Tgl Butuh]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="45" width="85" height="15" uuid="2653c5c5-5818-4531-b6c2-796e2cfae8df"/>
+					<box leftPadding="2"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[Pemakai]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="60" width="85" height="15" uuid="5ff8a416-f04f-426a-9344-5b3a394432c5"/>
+					<box leftPadding="2"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[Part Number]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="75" width="85" height="15" uuid="ae5c5222-e813-46b4-9e96-4b5192da4a0d"/>
+					<box leftPadding="2"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[Nama Barang]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="90" width="85" height="15" uuid="fe7e1489-a5c9-4f2b-87a0-24f34d9f4e72"/>
+					<box leftPadding="2"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[Stock WHS]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="105" width="85" height="15" uuid="821340ef-8d9c-45a6-812a-6ee2efb12547"/>
+					<box leftPadding="2"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[Harga Terakhir]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="120" width="85" height="15" uuid="d523fade-becc-4d23-8b0a-59a6f7120f9e"/>
+					<box leftPadding="2"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[Harga Terendah]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="135" width="85" height="15" uuid="97ca590c-9000-4e31-bd00-6fd05704b94a"/>
+					<box leftPadding="2"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[Master Harga]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="85" y="0" width="5" height="15" uuid="1ef44dd8-8ab7-4d74-a7c5-a315009c281f"/>
+					<box leftPadding="0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="85" y="15" width="5" height="15" uuid="c8d142bf-b7fd-4e03-aa68-6cf4d28487ee"/>
+					<box leftPadding="0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="85" y="30" width="5" height="15" uuid="adc333ad-cb8d-4f43-b87d-a6aa122711b6"/>
+					<box leftPadding="0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="85" y="45" width="5" height="15" uuid="7fcbcd5e-b6c8-4be2-85ec-5adef96aa330"/>
+					<box leftPadding="0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="85" y="60" width="5" height="15" uuid="68e1cd47-f47d-47f5-a304-4963a924b29d"/>
+					<box leftPadding="0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="85" y="75" width="5" height="15" uuid="faaec23f-3dad-479c-8561-5f993e51cb4f"/>
+					<box leftPadding="0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="85" y="90" width="5" height="15" uuid="c9505056-4684-481a-941f-318a908b8359"/>
+					<box leftPadding="0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="85" y="105" width="5" height="15" uuid="1f1f61d2-2c06-4e4a-8468-1eb3dda0f65a"/>
+					<box leftPadding="0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="85" y="120" width="5" height="15" uuid="ba680bd3-fd58-485d-899e-326acf2a25d7"/>
+					<box leftPadding="0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="85" y="135" width="5" height="15" uuid="46aab840-ab12-446d-b0f6-33a3ac386d1e"/>
+					<box leftPadding="0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="90" y="0" width="150" height="15" uuid="8989c858-3d66-4959-926a-3cdaf027cfee"/>
+					<box leftPadding="2">
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{PP} + " (" + $F{TGLPP}.substring(0,10) + ") / " + $F{PONO}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="90" y="45" width="150" height="15" uuid="88ed0674-3999-4c73-b47f-048c31f713d2"/>
+					<box leftPadding="2">
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{DEPT} + " - " + $F{NMREQUESTER}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="240" y="45" width="65" height="15" uuid="c88b9ac0-280f-453f-b257-b006e1145dfb"/>
+					<box leftPadding="5"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[Ref. B (PP)]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="310" y="45" width="271" height="15" uuid="eaf53913-ae75-4ee0-9966-c86979aad362"/>
+					<box leftPadding="2">
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{REFB}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="240" y="15" width="65" height="15" uuid="a492b372-807b-4c67-b773-7aeca8fe17ba"/>
+					<box leftPadding="5"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[Sie/PIC]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="240" y="30" width="65" height="15" uuid="6a4fb30a-ab7c-4e29-9746-fb2ba26e70cb"/>
+					<box leftPadding="5"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[Ref. A (PP)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="240" y="90" width="65" height="15" uuid="3a58556a-aefb-4a7d-b789-269ed32a07d2"/>
+					<box leftPadding="5"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[Quantity]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="240" y="105" width="65" height="15" uuid="13605e12-a911-4dbc-9d92-6b8c4b5a3bc3"/>
+					<box leftPadding="5"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[PO Terakhir]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="240" y="120" width="65" height="15" uuid="76c7f8bc-6760-40e9-86d7-7e55dde95e2b"/>
+					<box leftPadding="5"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[PO Terendah]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="305" y="15" width="5" height="15" uuid="6843fd79-ccce-4bb0-b9e4-0dd8ad5b9b5b"/>
+					<box leftPadding="0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="305" y="30" width="5" height="15" uuid="bcd76c18-5ff1-49f1-8724-d2829f7ff5f6"/>
+					<box leftPadding="0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="305" y="45" width="5" height="15" uuid="c780ae67-0ac0-4a9f-b21d-84e8244cae44"/>
+					<box leftPadding="0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="305" y="90" width="5" height="15" uuid="05099877-f615-48d6-be71-43279ab3f993"/>
+					<box leftPadding="0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="305" y="105" width="5" height="15" uuid="4b8d1152-40d6-46e6-89a7-5d58a039b752"/>
+					<box leftPadding="0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="305" y="120" width="5" height="15" uuid="65701da4-646c-413e-99c0-e6e9bc3955c5"/>
+					<box leftPadding="0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="310" y="15" width="271" height="15" uuid="93edb00c-2075-4b76-a2a2-e559aec86051"/>
+					<box leftPadding="2">
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{PIC_TARIK}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="310" y="30" width="271" height="15" uuid="e7a48fa1-cde0-4c10-b533-12e4459e96d7"/>
+					<box leftPadding="2">
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{REFA}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="240" y="0" width="341" height="15" uuid="cc48bf94-a757-4ed9-b936-310c1e74b7b5"/>
+					<box leftPadding="8"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="9" isBold="true" isUnderline="true"/>
+					</textElement>
+					<text><![CDATA[PP / KPP INSTRUCTION]]></text>
+				</staticText>
+				<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+					<reportElement x="90" y="30" width="150" height="15" uuid="7a549f07-6fe2-4856-8a56-9e4b0d68c11c"/>
+					<box leftPadding="2">
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{DLDT}]]></textFieldExpression>
+				</textField>
+				<textField pattern="" isBlankWhenNull="true">
+					<reportElement x="90" y="15" width="150" height="15" uuid="0a6ab021-ee00-493a-a357-056770b3dee2"/>
+					<box leftPadding="2">
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{TGL_TARIK}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="90" y="60" width="150" height="15" uuid="53c9a5f6-28ce-4c3b-8eaf-2f601695c0cd"/>
+					<box leftPadding="2">
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ITEMB} + " / " + $F{SEAK}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="90" y="75" width="491" height="15" uuid="4b614a0a-5456-4272-bdd7-2bc28199fac8"/>
+					<box leftPadding="2">
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NM_ITEM}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="310" y="90" width="85" height="15" uuid="55ef7b52-8c8d-482f-827e-217355ea2af3"/>
+					<box leftPadding="0" rightPadding="2">
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{QTYPP}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="395" y="90" width="186" height="15" uuid="8b71ed15-0422-4394-bfa3-133a863dadc1"/>
+					<box leftPadding="2">
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{UNIT}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="310" y="105" width="271" height="15" uuid="64575954-2847-4603-8e98-3a1c80879f36"/>
+					<box leftPadding="2">
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{PO_TERAKHIR}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="310" y="120" width="271" height="15" uuid="ef7e35f4-2e1c-4847-86e1-b1647d2cb3c7"/>
+					<box leftPadding="2">
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{PO_TERENDAH}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="90" y="105" width="30" height="15" uuid="de85d50d-b423-4be4-abc1-a01a398ec427"/>
+					<box leftPadding="2">
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{CURR_TERAKHIR}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="120" y="105" width="120" height="15" uuid="d9b17211-7ada-4172-acbf-bb450a35a6f1"/>
+					<box leftPadding="0" rightPadding="40">
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{HARGA_TERAKHIR}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="90" y="120" width="30" height="15" uuid="2bea317f-b1f8-401c-90eb-453b3034cc7e"/>
+					<box leftPadding="2">
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{CURR_TERENDAH}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="120" y="120" width="120" height="15" uuid="9780b158-9285-4d20-9ad4-7b3f248dc476"/>
+					<box leftPadding="0" rightPadding="40">
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{HARGA_TERENDAH}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="90" y="135" width="491" height="15" uuid="62c46c90-9f35-46bd-8081-f71a9cbbfdbc"/>
+					<box leftPadding="2">
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{MST_HRG}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="305" y="60" width="5" height="15" uuid="ebb991f2-2070-47f1-b4c4-e508b737308b"/>
+					<box leftPadding="0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="310" y="60" width="271" height="15" uuid="07d2616d-ddae-44ca-8cbd-ff2c1371b82c">
+						<printWhenExpression><![CDATA[$F{NOIA} != null]]></printWhenExpression>
+					</reportElement>
+					<box leftPadding="2">
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NOIA} + " / " + $F{NOURUT}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="240" y="60" width="65" height="15" uuid="00db55ff-dc7c-400e-9b4f-eb2595a4ab45"/>
+					<box leftPadding="5"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" size="8"/>
+					</textElement>
+					<text><![CDATA[No. IA/EA]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</detail>
+</jasperReport>

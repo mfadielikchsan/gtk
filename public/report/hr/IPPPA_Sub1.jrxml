@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="IPPPA_Sub1 (MidReview)" language="groovy" pageWidth="277" pageHeight="802" columnWidth="277" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="7e336093-995f-427d-8091-69d2345d55e4">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="no_ipp" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="revisi" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT A.NO_IPP, A.REVISI, A.PERIODE, A.PA_REV, (B.PA_REV || '. ' || DESC_PAREV) DISPLAY , A.POINT, A.SCORE, A.PSCORE
+FROM TCIPP005T A, VCIPP002M B
+WHERE A.PERIODE = 'MID'
+AND A.NO_IPP = $P{no_ipp}
+AND A.REVISI = $P{revisi}
+AND A.PA_REV = B.PA_REV]]>
+	</queryString>
+	<field name="NO_IPP" class="java.lang.String"/>
+	<field name="REVISI" class="java.math.BigDecimal"/>
+	<field name="PERIODE" class="java.lang.String"/>
+	<field name="PA_REV" class="java.lang.String"/>
+	<field name="DISPLAY" class="java.lang.String"/>
+	<field name="POINT" class="java.math.BigDecimal"/>
+	<field name="SCORE" class="java.math.BigDecimal"/>
+	<field name="PSCORE" class="java.math.BigDecimal"/>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="0" width="277" height="20" uuid="93043da9-7b5f-496e-a21b-08c51122f719"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<leftPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textField>
+					<reportElement x="3" y="2" width="145" height="16" uuid="b2b7c008-1c8c-41e6-8bad-521d5fcc8990">
+						<printWhenExpression><![CDATA[$F{PERIODE} == "MID"]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{DISPLAY}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="187" y="3" width="10" height="15" uuid="b235a750-2388-4852-b06f-1a2c5264cdbc"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[X]]></text>
+				</staticText>
+				<textField pattern="###0.00" isBlankWhenNull="true">
+					<reportElement x="156" y="3" width="30" height="15" uuid="4a85833e-3d56-46eb-9893-298dc75f220a"/>
+					<box>
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{SCORE} == null ? 0 : $F{SCORE}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="false">
+					<reportElement x="198" y="3" width="30" height="15" uuid="03b50517-20c0-4ca6-812a-5ae68411e417"/>
+					<box>
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{POINT} == null ? "0%" : $F{POINT} + "%"]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="230" y="3" width="10" height="15" uuid="f7c733fb-0f55-4d1c-9dd3-0d4269c31253"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[=]]></text>
+				</staticText>
+				<textField pattern="###0.00" isBlankWhenNull="false">
+					<reportElement x="243" y="3" width="30" height="15" uuid="e0b526e8-3e30-43c3-a4c7-b96b4c8badb7"/>
+					<box>
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{PSCORE} == null ? 0 : $F{PSCORE}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+</jasperReport>

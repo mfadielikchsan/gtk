@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="565" pageHeight="802" whenNoDataType="AllSectionsNoDetail" columnWidth="565" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="b12e1461-f2c2-4eb5-91b6-f20b18705cbe">
+	<property name="ireport.zoom" value="1.4641000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="tgl1" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="lok_pt" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="kd_line" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="kd_mesin" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tgl2" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="npk" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select m1.tgl_dm, m1.kd_mesin||' - '||fnm_mesinx(m1.kd_mesin) as mesin, m1.kd_line||' - '||fnm_linex(m1.kd_line) line, m1.ket_prob, m1.ket_cm
+from mtct_dft_mslh m1
+where to_char(m1.tgl_dm,'yyyymmdd') >= to_char($P{tgl1}::date,'YYYYMMDD') 
+and to_char(m1.tgl_dm,'yyyymmdd') <= to_char($P{tgl2}::date,'YYYYMMDD')
+and m1.kd_plant = $P{lok_pt}
+and (m1.kd_line = $P{kd_line} or $P{kd_line} = '')
+and (m1.kd_mesin = $P{kd_mesin} or $P{kd_mesin} = '')
+and exists (select 1 from mtcm_npk where mtcm_npk.npk = $P{npk} and mtcm_npk.kd_plant = m1.kd_plant)
+order by m1.tgl_dm, m1.kd_mesin, m1.kd_line]]>
+	</queryString>
+	<field name="tgl_dm" class="java.sql.Date"/>
+	<field name="mesin" class="java.lang.String"/>
+	<field name="line" class="java.lang.String"/>
+	<field name="ket_prob" class="java.lang.String"/>
+	<field name="ket_cm" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="15" splitType="Stretch">
+			<staticText>
+				<reportElement x="40" y="0" width="100" height="15" uuid="09ee53d8-df6b-4097-b7cc-f00660f6b762"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Mesin]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="140" y="0" width="100" height="15" uuid="7013a940-8278-4996-8bd9-3b71e4507413"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Line]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="240" y="0" width="160" height="15" uuid="58484300-4942-4530-b0f8-a2555adb623b"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Problem]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="400" y="0" width="165" height="15" uuid="11374a5d-69e3-47bb-8669-3fd6376e2c21"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+					<font size="8" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Counter Measure]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="40" height="15" uuid="de8d9b01-4c49-438d-886c-d9f09c8163ef"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Tanggal]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="40" y="0" width="100" height="15" uuid="9d1dcc06-1a8f-48be-b83d-114dea55c94a"/>
+				<box topPadding="1" leftPadding="2">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mesin}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="140" y="0" width="100" height="15" uuid="79e1f9bd-d90d-4219-b2a3-b461a0b48858"/>
+				<box topPadding="1" leftPadding="2">
+					<topPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{line}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="240" y="0" width="160" height="15" uuid="aaefddf3-e264-4650-b927-af1f408d2ace"/>
+				<box topPadding="1" leftPadding="2" rightPadding="0">
+					<topPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ket_prob}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="400" y="0" width="165" height="15" uuid="fde0707f-f533-4849-af14-8822c42686c7"/>
+				<box topPadding="1" leftPadding="2">
+					<topPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ket_cm}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="40" height="15" uuid="b42dc6f8-4331-45fe-ab40-bdf9c1d6308e"/>
+				<box topPadding="1" leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_dm}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="35">
+			<subreport>
+				<reportElement x="0" y="5" width="565" height="30" uuid="9dd47e3e-dc33-4a64-b300-9d6351b43bcc"/>
+				<subreportParameter name="tgl2">
+					<subreportParameterExpression><![CDATA[$P{tgl2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="kd_line">
+					<subreportParameterExpression><![CDATA[$P{kd_line}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="tgl1">
+					<subreportParameterExpression><![CDATA[$P{tgl1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="kd_mesin">
+					<subreportParameterExpression><![CDATA[$P{kd_mesin}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="npk">
+					<subreportParameterExpression><![CDATA[$P{npk}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="lok_pt">
+					<subreportParameterExpression><![CDATA[$P{lok_pt}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "ReportDM_Sub3.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

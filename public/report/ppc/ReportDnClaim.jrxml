@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="b12e1461-f2c2-4eb5-91b6-f20b18705cbe">
+	<property name="ireport.zoom" value="1.4641000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="906"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="logo" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tahun" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="bulan" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nm_bulan" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="kd_site" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="no_dn" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="st_tampil" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="kd_bpid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select distinct kd_bpid1 as kd_bpid, (select b_suppliers.nama from b_suppliers where b_suppliers.kd_supp = baan_iginh008s.kd_bpid1) nm_bpid 
+from baan_iginh008s 
+where thn_kembali = $P{tahun} 
+and bln_kembali = $P{bulan} 
+and ('IGP'||substr(kd_whfrom,1,1) = $P{kd_site} or $P{kd_site} = '') 
+and (kd_pono = $P{no_dn} or $P{no_dn} = '') 
+and (st_tampil = $P{st_tampil} or $P{st_tampil} = '') 
+and (kd_bpid1 = $P{kd_bpid} or $P{kd_bpid} = '')  
+order by kd_bpid1]]>
+	</queryString>
+	<field name="kd_bpid" class="java.lang.String"/>
+	<field name="nm_bpid" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="820" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="595" height="820" uuid="e9086c45-a003-4a85-a24c-b8de2dc25479"/>
+				<subreportParameter name="st_tampil">
+					<subreportParameterExpression><![CDATA[$P{st_tampil}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="logo">
+					<subreportParameterExpression><![CDATA[$P{logo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="kd_site">
+					<subreportParameterExpression><![CDATA[$P{kd_site}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="kd_bpid">
+					<subreportParameterExpression><![CDATA[$F{kd_bpid}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="nm_bpid">
+					<subreportParameterExpression><![CDATA[$F{nm_bpid}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="bulan">
+					<subreportParameterExpression><![CDATA[$P{bulan}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="nm_bulan">
+					<subreportParameterExpression><![CDATA[$P{nm_bulan}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="tahun">
+					<subreportParameterExpression><![CDATA[$P{tahun}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="no_dn">
+					<subreportParameterExpression><![CDATA[$P{no_dn}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "ReportDnClaim_Sub.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="22" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy HH:mm:ss">
+				<reportElement x="15" y="0" width="223" height="12" uuid="c9075fc9-e935-4a9c-87e9-00d834e808e6"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="460" y="0" width="80" height="12" uuid="70f15471-273e-4369-9b61-55d668f532eb"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="540" y="0" width="40" height="12" uuid="8da8e2ca-f485-4b9c-b430-adc76c8e12d1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

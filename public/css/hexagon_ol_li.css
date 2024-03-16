@@ -1,0 +1,48 @@
+HTML CSSResult
+/* ----------------------------------------- */
+ol.even {
+  position: relative;
+  left: 5.6em;
+}
+
+ol.odd {
+  position: relative;
+  margin-top: -4.5%;
+  margin-bottom: -4%;
+}
+
+.hex {
+  position: relative;
+  margin: .32em auto;
+  width: 4em;
+  height: 6.2em;
+  border-radius: 1em/.5em;
+  background-color: #ccc;
+  color: #FFF;
+  transform: rotate(-60deg);
+  display: inline-block;
+  margin-right: 7em;
+  transition: all 150ms ease-in-out;
+}
+
+.hex:before, .hex:after {
+  position: absolute;
+  width: inherit;
+  height: inherit;
+  border-radius: inherit;
+  background: inherit;
+  content: '';
+}
+
+.hex:before {
+  transform: rotate(60deg);
+}
+
+.hex:after {
+  transform: rotate(-60deg);
+}
+
+.hex:hover {
+  background-color: #000;
+  cursor: pointer;
+}

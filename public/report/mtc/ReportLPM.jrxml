@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="572" pageHeight="752" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="78bdfa5c-34a1-4e51-8569-2680751a8111">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="urlImage" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="lok_pt" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="hari" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tgl" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="bln" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="thn" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="shift" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tgl1" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tgl2" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="kd_line" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="npk" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="kd_mesin" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="st_pms" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="line_stop" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT NO_WO, TGL_WO, KD_STATUS, PT, LOK_PT, KD_LINE, FNM_LINEX(KD_LINE) NM_LINE,  KD_PROS, KD_MESIN, KD_PROBLEM, URAIAN_PROB, EST_JAMSTART, EST_JAMEND, EST_DURASI, DTCREA, DTMODI, TYPE_MTC, URAIAN_PENYEBAB, USULAN_PERBAIKAN, CATATAN, TYPE_KERJA TYPE_INFO_KERJA, NO_DM, TGL_PLAN, LINE_STOP, ST_CHECK, CREABY,  MODIBY, FREKUENSI, LANGKAH_KERJA, SHIFT, ST_UTILITY, BIAYA_JAM_WO, RANGKING, PRSN_BREAKDOWN, TOTAL_LINESTOP, PRINT_BIGPROBLEM, SPAREPART, NO_LS_IGP4, KD_PLANT, NM_PELAKSANA, KD_SITE, INFO_KERJA, ST_CLOSE, LOK_PICT, NO_PMS, APR_PIC_TGL, APR_PIC_NPK, APR_FM_TGL, APR_FM_NPK, APR_SH_TGL, APR_SH_NPK, RJT_TGL, RJT_NPK, RJT_KET, RJT_ST, ST_MAIN_ITEM, NO_LHP, LS_MULAI, NO_IC, NO_LS, PREVENT_DD, PREVENT_STATUS, QTY_OLI 
+FROM TMTCWO1 
+WHERE (TO_CHAR(TGL_WO,'YYYYMMDD') >= $P{tgl1} 
+AND TO_CHAR(TGL_WO,'YYYYMMDD') <= $P{tgl2}) 
+AND (SHIFT = $P{shift} OR $P{shift} = '') 
+AND (LOK_PT = $P{lok_pt} OR $P{lok_pt} = '') 
+AND (KD_LINE = $P{kd_line} OR $P{kd_line} = '') 
+AND (KD_MESIN = $P{kd_mesin} OR $P{kd_mesin} = '') 
+AND (COALESCE(INFO_KERJA,'-') = $P{st_pms} OR $P{st_pms} = '') 
+AND COALESCE(LINE_STOP,0) >= COALESCE($P{line_stop},0)
+AND EXISTS (SELECT 1 FROM MTCM_NPK WHERE MTCM_NPK.NPK = $P{npk} AND MTCM_NPK.KD_PLANT = TMTCWO1.LOK_PT)]]>
+	</queryString>
+	<field name="no_wo" class="java.lang.String"/>
+	<field name="tgl_wo" class="java.sql.Date"/>
+	<field name="kd_status" class="java.lang.String"/>
+	<field name="pt" class="java.lang.String"/>
+	<field name="lok_pt" class="java.lang.String"/>
+	<field name="kd_line" class="java.lang.String"/>
+	<field name="nm_line" class="java.lang.String"/>
+	<field name="kd_pros" class="java.lang.String"/>
+	<field name="kd_mesin" class="java.lang.String"/>
+	<field name="kd_problem" class="java.lang.String"/>
+	<field name="uraian_prob" class="java.lang.String"/>
+	<field name="est_jamstart" class="java.sql.Timestamp"/>
+	<field name="est_jamend" class="java.sql.Timestamp"/>
+	<field name="est_durasi" class="java.lang.Integer"/>
+	<field name="dtcrea" class="java.sql.Timestamp"/>
+	<field name="dtmodi" class="java.sql.Timestamp"/>
+	<field name="type_mtc" class="java.lang.Integer"/>
+	<field name="uraian_penyebab" class="java.lang.String"/>
+	<field name="usulan_perbaikan" class="java.lang.String"/>
+	<field name="catatan" class="java.lang.String"/>
+	<field name="type_info_kerja" class="java.lang.Integer"/>
+	<field name="no_dm" class="java.lang.String"/>
+	<field name="tgl_plan" class="java.sql.Date"/>
+	<field name="line_stop" class="java.lang.Integer"/>
+	<field name="st_check" class="java.lang.String"/>
+	<field name="creaby" class="java.lang.String"/>
+	<field name="modiby" class="java.lang.String"/>
+	<field name="frekuensi" class="java.lang.Integer"/>
+	<field name="langkah_kerja" class="java.lang.String"/>
+	<field name="shift" class="java.lang.String"/>
+	<field name="st_utility" class="java.lang.String"/>
+	<field name="biaya_jam_wo" class="java.math.BigDecimal"/>
+	<field name="rangking" class="java.lang.Integer"/>
+	<field name="prsn_breakdown" class="java.lang.Integer"/>
+	<field name="total_linestop" class="java.lang.Integer"/>
+	<field name="print_bigproblem" class="java.lang.String"/>
+	<field name="sparepart" class="java.lang.String"/>
+	<field name="no_ls_igp4" class="java.lang.String"/>
+	<field name="kd_plant" class="java.lang.String"/>
+	<field name="nm_pelaksana" class="java.lang.String"/>
+	<field name="kd_site" class="java.lang.String"/>
+	<field name="info_kerja" class="java.lang.String"/>
+	<field name="st_close" class="java.lang.String"/>
+	<field name="lok_pict" class="java.lang.String"/>
+	<field name="no_pms" class="java.lang.Integer"/>
+	<field name="apr_pic_tgl" class="java.sql.Timestamp"/>
+	<field name="apr_pic_npk" class="java.lang.String"/>
+	<field name="apr_fm_tgl" class="java.sql.Timestamp"/>
+	<field name="apr_fm_npk" class="java.lang.String"/>
+	<field name="apr_sh_tgl" class="java.sql.Timestamp"/>
+	<field name="apr_sh_npk" class="java.lang.String"/>
+	<field name="rjt_tgl" class="java.sql.Timestamp"/>
+	<field name="rjt_npk" class="java.lang.String"/>
+	<field name="rjt_ket" class="java.lang.String"/>
+	<field name="rjt_st" class="java.lang.String"/>
+	<field name="st_main_item" class="java.lang.String"/>
+	<field name="no_lhp" class="java.lang.String"/>
+	<field name="ls_mulai" class="java.sql.Timestamp"/>
+	<field name="no_ic" class="java.lang.Integer"/>
+	<field name="no_ls" class="java.lang.String"/>
+	<field name="prevent_dd" class="java.sql.Date"/>
+	<field name="prevent_status" class="java.lang.String"/>
+	<field name="qty_oli" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="86" splitType="Stretch">
+			<image scaleImage="FillFrame" onErrorType="Icon">
+				<reportElement x="0" y="0" width="145" height="86" uuid="a6397fd1-95bb-4081-8cba-03e179430b93"/>
+				<imageExpression><![CDATA[$P{urlImage}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="157" y="22" width="279" height="24" uuid="dca7198c-0d1e-436e-8fc9-b1a2d3d2a85e"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LAPORAN PEKERJAAN MAINTENANCE]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="419" y="22" width="136" height="24" uuid="e5082579-d34c-49ef-a60a-0670ddbd4b17"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{lok_pt}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="72" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="8" width="51" height="20" uuid="9e60e5ae-c6da-4b75-bf97-beef1115270e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{hari}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="3" width="572" height="1" uuid="60753bb5-56b6-4a20-bdc4-e7d60c1e627f"/>
+			</line>
+			<textField>
+				<reportElement x="51" y="8" width="21" height="20" uuid="c27da02d-3e36-4493-aae5-b54e8d6462df"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tgl}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="72" y="8" width="47" height="20" uuid="9fd6254a-99a5-4b71-8b15-bb43d27fe1e1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{bln}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="119" y="8" width="66" height="20" uuid="2b364740-f54c-4ffc-8973-73b1da5c36e9"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{thn}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="44" width="42" height="20" uuid="c0e96b8d-65a0-46b3-b2bf-83521b24fa58"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Shift :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="42" y="44" width="52" height="20" uuid="75ce476c-393a-4230-96c9-0f04d88a5e39"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{shift}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="2" width="572" height="1" uuid="2a74387a-15d3-4136-a28b-379677126cf2"/>
+			</line>
+			<line>
+				<reportElement x="0" y="122" width="572" height="1" uuid="0c540a9a-82d6-44cf-80de-0e52886e19ed"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="3" width="211" height="20" uuid="8585151f-cd1b-4974-9ab0-da8c7834bbce"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_line}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="23" width="211" height="20" uuid="0af23e13-3cc0-4ece-8ec9-bcd8405e67d5"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{kd_mesin}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="43" width="211" height="20" uuid="888ead62-8414-47a9-bc53-cf0f32472494"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{uraian_prob}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="63" width="211" height="20" uuid="f651c8fc-14e3-4069-b9bc-7485beccbde8"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{uraian_penyebab}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="83" width="211" height="20" uuid="77a06c39-d6c2-4f25-94b0-bbf84a3f63f4"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{langkah_kerja}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="103" width="21" height="19" uuid="60c93b7e-59a3-45fd-8ebc-0995df279b5c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[LS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="51" y="103" width="21" height="19" uuid="1dfacc1c-5ac1-4ae3-9a60-9e854aa724e4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[']]></text>
+			</staticText>
+			<textField>
+				<reportElement x="21" y="103" width="30" height="19" uuid="d65f2e10-38b3-4d0e-acf8-46fd39ac316e"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{line_stop}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

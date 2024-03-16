@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="2000" pageHeight="800" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="2000" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="b12e1461-f2c2-4eb5-91b6-f20b18705cbe">
+	<property name="ireport.zoom" value="1.2100000000000128"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="engt_ttool1_id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="path" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select id, engt_ttool1_id, no_urut, eq_status, eq_kel, eq_kel_no_urut, eq_item_baan, eq_name, eq_spek, eq_maker, eq_drw_file, eq_drw_nm_file, eq_qty, kategori, st_aktif, dtcrea, creaby, dtmodi, modiby, $P{path}||eq_drw_file eq_drw_file2, substr(eq_drw_nm_file,length(eq_drw_nm_file)-2) ext, substr(eq_kel,1,1)||coalesce(eq_kel_no_urut::text,'') as kelompok 
+from engt_ttool2s 
+where engt_ttool1_id = $P{engt_ttool1_id}
+order by no_urut]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="engt_ttool1_id" class="java.lang.Integer"/>
+	<field name="no_urut" class="java.lang.Integer"/>
+	<field name="eq_status" class="java.lang.String"/>
+	<field name="eq_kel" class="java.lang.String"/>
+	<field name="eq_kel_no_urut" class="java.lang.Integer"/>
+	<field name="eq_item_baan" class="java.lang.String"/>
+	<field name="eq_name" class="java.lang.String"/>
+	<field name="eq_spek" class="java.lang.String"/>
+	<field name="eq_maker" class="java.lang.String"/>
+	<field name="eq_drw_file" class="java.lang.String"/>
+	<field name="eq_drw_nm_file" class="java.lang.String"/>
+	<field name="eq_qty" class="java.lang.Integer"/>
+	<field name="kategori" class="java.lang.String"/>
+	<field name="st_aktif" class="java.lang.String"/>
+	<field name="dtcrea" class="java.sql.Timestamp"/>
+	<field name="creaby" class="java.lang.String"/>
+	<field name="dtmodi" class="java.sql.Timestamp"/>
+	<field name="modiby" class="java.lang.String"/>
+	<field name="eq_drw_file2" class="java.lang.String"/>
+	<field name="ext" class="java.lang.String"/>
+	<field name="kelompok" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="50">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="20" height="50" uuid="2be32613-6829-4f76-acbf-e7f0c88e8ca2">
+					<printWhenExpression><![CDATA[$F{eq_kel} != null]]></printWhenExpression>
+				</reportElement>
+				<box topPadding="0" leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{kelompok}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="20" y="0" width="100" height="50" uuid="e4a18b2f-0de2-45b3-b442-b7ab7b4dc3f8"/>
+				<box topPadding="0" leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{eq_name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="120" y="0" width="60" height="50" uuid="8d70b838-a5be-4c80-974e-c8733c27ba3a"/>
+				<box topPadding="0" leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{eq_status}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="180" y="0" width="200" height="50" uuid="df74db20-7c55-46a8-ad14-28a1f790eb7b"/>
+				<box topPadding="0" leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{eq_spek}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="380" y="0" width="100" height="50" uuid="96fd06c5-1c48-4acc-b904-a513eac60eca"/>
+				<box topPadding="0" leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{eq_maker}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="760" y="0" width="50" height="50" uuid="95363260-984e-405b-90f4-140503154cde"/>
+				<box topPadding="0" leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{eq_qty}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="810" y="0" width="185" height="50" uuid="0cd74edf-6d2a-4a39-abfa-fbdd9d9bf284"/>
+				<box topPadding="0" leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{kategori}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement stretchType="RelativeToBandHeight" x="480" y="0" width="280" height="50" uuid="94b88eb6-57e0-4907-bea1-ae3e56bb60dd"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle" onErrorType="Blank">
+					<reportElement stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" mode="Transparent" x="5" y="5" width="270" height="40" uuid="95324974-3b01-4e7d-bd51-3505e97a1c22">
+						<printWhenExpression><![CDATA[$F{eq_drw_file} != null]]></printWhenExpression>
+					</reportElement>
+					<imageExpression><![CDATA[$F{eq_drw_file2}]]></imageExpression>
+				</image>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="280" height="50" uuid="cad36e50-3156-4512-97e7-dc48fc867f9d">
+						<printWhenExpression><![CDATA[$F{ext}.equalsIgnoreCase("pdf")]]></printWhenExpression>
+					</reportElement>
+					<box topPadding="0" leftPadding="0">
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{eq_drw_nm_file}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement stretchType="RelativeToBandHeight" x="995" y="0" width="1005" height="50" uuid="93469b8e-497a-4864-b52c-4b054cb4098b"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<subreport>
+					<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="1005" height="50" uuid="2ad6827c-bc7c-4a22-ac2f-18c547c36707"/>
+					<subreportParameter name="engt_ttool2_id">
+						<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "ReportTooling_Sub2.jasper"]]></subreportExpression>
+				</subreport>
+			</frame>
+		</band>
+	</detail>
+</jasperReport>

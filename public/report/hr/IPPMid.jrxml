@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="IPP Report Mid Review" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="74fda311-c56f-4b1b-a020-b38a0936eafa">
+	<property name="ireport.zoom" value="0.8264462809917436"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="logo" class="java.lang.String"/>
+	<parameter name="no_ipp" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="revisi" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT NO_IPP, REVISI, TGL_IPP, TAHUN, NPK, FNM_NPK(NPK) NAMA, PT, FNM_PT(PT) NM_PT, F_Kodegol(NPK) GOL, 
+    DEPT, FNM_DEP(DEPT) NM_DEPT, DIV, FNM_DIV(DIV) NM_DIV, MID_VALUE, OYR_VALUE, MID_GRADE, GRADE, 
+    DEPT_HEAD, DIV_HEAD, FNM_NPK(DEPT_HEAD) NM_DEPTHEAD, FNM_NPK(DIV_HEAD) NM_DIVHEAD, FNM_NPK(HRD_APP) NM_HRDAPP, TO_CHAR(TGL_IPP, 'DD-MON-YYYY') TGLIPP,
+    ST_SUB, APP_DEP, APP_DIV, APP_HRD, HRD_APP, DTAPP_DEPT, DTAPP_DIV, DTAPP_HRD, 
+    MID_REVBY, MID_REVSPV, OYR_REVBY, OYR_REVSPV, MID_DTREV, OYR_DTREV, 
+    CREABY, MODIBY, DTCREA, DTMODI, 
+    SUBMIT, DTSUBMIT, SUBMIT_PAMID, SUBMIT_PAOYR, DTSUBMIT_PAOYR, DTSUBMIT_PAMID, 
+    APPAP_PAMID, APPAP_PAOYR, DTAPPAP_PAMID, DTAPPAP_PAOYR, 
+    APPHR_PAMID, APPHR_PAOYR, DTAPPHR_PAMID, DTAPPHR_PAOYR, 
+    NPKAPP_PAMID, NPKAPP_PAOYR, NPKHRD_PAMID, NPKHRD_PAOYR, FNM_NPK(MID_REVBY) NM_APPRAISER 
+FROM   TCIPP001T
+WHERE NO_IPP = $P{no_ipp}
+AND REVISI = $P{revisi}]]>
+	</queryString>
+	<field name="NO_IPP" class="java.lang.String"/>
+	<field name="REVISI" class="java.math.BigDecimal"/>
+	<field name="TGL_IPP" class="java.sql.Timestamp"/>
+	<field name="TAHUN" class="java.lang.String"/>
+	<field name="NPK" class="java.lang.String"/>
+	<field name="NAMA" class="java.lang.String"/>
+	<field name="PT" class="java.lang.String"/>
+	<field name="NM_PT" class="java.lang.String"/>
+	<field name="GOL" class="java.lang.String"/>
+	<field name="DEPT" class="java.lang.String"/>
+	<field name="NM_DEPT" class="java.lang.String"/>
+	<field name="DIV" class="java.lang.String"/>
+	<field name="NM_DIV" class="java.lang.String"/>
+	<field name="MID_VALUE" class="java.math.BigDecimal"/>
+	<field name="OYR_VALUE" class="java.math.BigDecimal"/>
+	<field name="MID_GRADE" class="java.lang.String"/>
+	<field name="GRADE" class="java.lang.String"/>
+	<field name="DEPT_HEAD" class="java.lang.String"/>
+	<field name="DIV_HEAD" class="java.lang.String"/>
+	<field name="NM_DEPTHEAD" class="java.lang.String"/>
+	<field name="NM_DIVHEAD" class="java.lang.String"/>
+	<field name="NM_HRDAPP" class="java.lang.String"/>
+	<field name="TGLIPP" class="java.lang.String"/>
+	<field name="ST_SUB" class="java.lang.String"/>
+	<field name="APP_DEP" class="java.lang.String"/>
+	<field name="APP_DIV" class="java.lang.String"/>
+	<field name="APP_HRD" class="java.lang.String"/>
+	<field name="HRD_APP" class="java.lang.String"/>
+	<field name="DTAPP_DEPT" class="java.sql.Timestamp"/>
+	<field name="DTAPP_DIV" class="java.sql.Timestamp"/>
+	<field name="DTAPP_HRD" class="java.sql.Timestamp"/>
+	<field name="MID_REVBY" class="java.lang.String"/>
+	<field name="MID_REVSPV" class="java.lang.String"/>
+	<field name="OYR_REVBY" class="java.lang.String"/>
+	<field name="OYR_REVSPV" class="java.lang.String"/>
+	<field name="MID_DTREV" class="java.sql.Timestamp"/>
+	<field name="OYR_DTREV" class="java.sql.Timestamp"/>
+	<field name="CREABY" class="java.lang.String"/>
+	<field name="MODIBY" class="java.lang.String"/>
+	<field name="DTCREA" class="java.sql.Timestamp"/>
+	<field name="DTMODI" class="java.sql.Timestamp"/>
+	<field name="SUBMIT" class="java.lang.String"/>
+	<field name="DTSUBMIT" class="java.sql.Timestamp"/>
+	<field name="SUBMIT_PAMID" class="java.lang.String"/>
+	<field name="SUBMIT_PAOYR" class="java.lang.String"/>
+	<field name="DTSUBMIT_PAOYR" class="java.sql.Timestamp"/>
+	<field name="DTSUBMIT_PAMID" class="java.sql.Timestamp"/>
+	<field name="APPAP_PAMID" class="java.lang.String"/>
+	<field name="APPAP_PAOYR" class="java.lang.String"/>
+	<field name="DTAPPAP_PAMID" class="java.sql.Timestamp"/>
+	<field name="DTAPPAP_PAOYR" class="java.sql.Timestamp"/>
+	<field name="APPHR_PAMID" class="java.lang.String"/>
+	<field name="APPHR_PAOYR" class="java.lang.String"/>
+	<field name="DTAPPHR_PAMID" class="java.sql.Timestamp"/>
+	<field name="DTAPPHR_PAOYR" class="java.sql.Timestamp"/>
+	<field name="NPKAPP_PAMID" class="java.lang.String"/>
+	<field name="NPKAPP_PAOYR" class="java.lang.String"/>
+	<field name="NPKHRD_PAMID" class="java.lang.String"/>
+	<field name="NPKHRD_PAOYR" class="java.lang.String"/>
+	<field name="NM_APPRAISER" class="java.lang.String"/>
+	<pageHeader>
+		<band height="150" splitType="Stretch">
+			<frame>
+				<reportElement x="540" y="86" width="262" height="45" uuid="2784788a-e7c1-48d7-9bd3-b199bdca2d93"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<staticText>
+					<reportElement x="5" y="3" width="85" height="13" uuid="1dd71116-268f-4fd5-8dfe-67c0f9a0beea"/>
+					<box leftPadding="2"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true"/>
+						<paragraph tabStopWidth="20"/>
+					</textElement>
+					<text><![CDATA[Company		:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="5" y="16" width="85" height="13" uuid="db4bad0a-c9c9-4eb2-ab4d-d16480555053"/>
+					<box leftPadding="2"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true"/>
+						<paragraph tabStopWidth="20"/>
+					</textElement>
+					<text><![CDATA[Date of Review	:	]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="5" y="29" width="85" height="13" uuid="959a5fa3-cada-4b63-bfa6-3804b001da58"/>
+					<box leftPadding="2"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true"/>
+						<paragraph tabStopWidth="20"/>
+					</textElement>
+					<text><![CDATA[Appraiser		:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="94" y="3" width="161" height="13" uuid="5db40805-02af-4bc7-a741-10883690c8d0"/>
+					<box leftPadding="2"/>
+					<textElement verticalAlignment="Middle" markup="none">
+						<font fontName="DejaVu Sans" size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NM_PT}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd-MMM-yy" isBlankWhenNull="true">
+					<reportElement x="94" y="16" width="161" height="13" uuid="ca752393-bdea-428d-a475-fa8ad59f059e"/>
+					<box leftPadding="2"/>
+					<textElement verticalAlignment="Middle" markup="none">
+						<font fontName="DejaVu Sans" size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{MID_DTREV}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="94" y="29" width="161" height="13" uuid="0f32d9df-01d1-4a2d-9097-154ddf1ba9de"/>
+					<box leftPadding="2"/>
+					<textElement verticalAlignment="Middle" markup="none">
+						<font fontName="DejaVu Sans" size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NM_APPRAISER}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement x="642" y="0" width="160" height="75" uuid="197ab206-68bf-44d9-be9c-814bd2adbd74"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<staticText>
+					<reportElement x="0" y="0" width="69" height="15" uuid="29929a60-c6a3-4ee1-95b7-bd1b1d09e3c5"/>
+					<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true"/>
+						<paragraph tabStopWidth="20"/>
+					</textElement>
+					<text><![CDATA[IPP No.		:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="15" width="69" height="15" uuid="4f65e74d-87f2-4720-a481-ba506a234ec5"/>
+					<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true"/>
+						<paragraph tabStopWidth="20"/>
+					</textElement>
+					<text><![CDATA[Revision		:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="30" width="69" height="15" uuid="9b09b488-e84b-4b24-98c4-ada6474947d9"/>
+					<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true"/>
+						<paragraph tabStopWidth="20"/>
+					</textElement>
+					<text><![CDATA[Date		:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="45" width="69" height="15" uuid="ca7ed5e4-caf6-4bd0-9964-fa68ed84d3a2"/>
+					<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true"/>
+						<paragraph tabStopWidth="20"/>
+					</textElement>
+					<text><![CDATA[Modify		:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="60" width="69" height="15" uuid="de58fc63-3dba-40cc-bac9-bbdafb63b448"/>
+					<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true"/>
+						<paragraph tabStopWidth="20"/>
+					</textElement>
+					<text><![CDATA[Page		:]]></text>
+				</staticText>
+				<textField pattern="dd-MMM-yyyy" isBlankWhenNull="true">
+					<reportElement x="69" y="45" width="88" height="15" uuid="5d1c309f-7bce-41f6-9900-b8d1bd1be31f"/>
+					<textElement verticalAlignment="Middle" markup="none">
+						<font fontName="DejaVu Sans" size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{DTMODI}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="69" y="0" width="88" height="15" uuid="3402c660-401e-4923-9a09-27265bea686b"/>
+					<textElement verticalAlignment="Middle" markup="none">
+						<font fontName="DejaVu Sans" size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NO_IPP}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="69" y="15" width="88" height="15" uuid="3a052c61-2e46-4247-bc62-026260340374"/>
+					<textElement verticalAlignment="Middle" markup="none">
+						<font fontName="DejaVu Sans" size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{REVISI}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd-MMM-yy">
+					<reportElement x="69" y="30" width="88" height="15" uuid="39735303-3745-42f2-8af8-e13a73f43d1a"/>
+					<textElement verticalAlignment="Middle" markup="none">
+						<font fontName="DejaVu Sans" size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{TGL_IPP}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="69" y="60" width="45" height="15" uuid="429f3762-304c-45f9-9b40-88ec64df16eb"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Report">
+					<reportElement x="114" y="60" width="40" height="15" uuid="7527a5e2-66ec-4444-bc43-f794011b6f66"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<staticText>
+				<reportElement x="164" y="30" width="454" height="28" uuid="66529f8e-3e58-4963-b453-1027b5ff6340"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="18" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[( Mid Year Result Review )]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="652" y="135" width="150" height="12" uuid="fc6cf550-f331-4b37-82a5-619c87246f9f"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8"/>
+				</textElement>
+				<text><![CDATA[Personal & Confidential]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="164" y="0" width="454" height="30" uuid="398efba1-2581-412e-a617-21946fe14f62"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INDIVIDUAL PERFORMANCE PLAN]]></text>
+			</staticText>
+			<image>
+				<reportElement x="46" y="8" width="80" height="50" uuid="ea77c1ec-4f0f-4bd3-9e01-1bee38f4e95f"/>
+				<imageExpression><![CDATA[$P{logo} != null ? (!$P{logo}.equals("") ? $P{logo} : "../../src/images/igp_new.jpg") : "../../src/images/igp_new.jpg"]]></imageExpression>
+			</image>
+			<frame>
+				<reportElement x="0" y="86" width="245" height="45" uuid="67172454-ba52-4520-acca-c2025ab1fa8c"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textField>
+					<reportElement x="67" y="16" width="161" height="13" uuid="8464ad47-bc77-44af-a576-f44530d799f7"/>
+					<box leftPadding="2"/>
+					<textElement verticalAlignment="Middle" markup="none">
+						<font fontName="DejaVu Sans" size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NM_DEPT}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="67" y="29" width="161" height="13" uuid="d15313b2-9047-4dbb-bd93-c5058cf33537"/>
+					<box leftPadding="2"/>
+					<textElement verticalAlignment="Middle" markup="none">
+						<font fontName="DejaVu Sans" size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NM_DIV}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="2" y="3" width="65" height="13" uuid="b2803e7f-066b-4ee7-9469-8256556340fd"/>
+					<box leftPadding="2"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true"/>
+						<paragraph tabStopWidth="20"/>
+					</textElement>
+					<text><![CDATA[Name		:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="2" y="16" width="65" height="13" uuid="12766e6e-5ec8-4d5e-864b-6228ccad1529"/>
+					<box leftPadding="2"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true"/>
+						<paragraph tabStopWidth="20"/>
+					</textElement>
+					<text><![CDATA[Department	:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="2" y="29" width="65" height="13" uuid="d541923c-c4a3-4596-b1a8-137802858742"/>
+					<box leftPadding="2"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true"/>
+						<paragraph tabStopWidth="20"/>
+					</textElement>
+					<text><![CDATA[Division		:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="67" y="3" width="161" height="13" uuid="fda604c8-04c2-4b65-84bc-f09cf812d596"/>
+					<box leftPadding="2"/>
+					<textElement verticalAlignment="Middle" markup="none">
+						<font fontName="DejaVu Sans" size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NAMA}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="395" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="802" height="362" uuid="6be7a564-9832-4629-8224-bf883603b5a6"/>
+				<subreportParameter name="revisi">
+					<subreportParameterExpression><![CDATA[$F{REVISI}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="no_ipp">
+					<subreportParameterExpression><![CDATA[$F{NO_IPP}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "IPPMid_Sub.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

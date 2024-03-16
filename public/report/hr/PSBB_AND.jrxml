@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="555" pageHeight="802" columnWidth="535" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="dd15b8dc-cf69-4251-8dee-ac5842af34c7">
+	<property name="ireport.zoom" value="0.9090909090909091"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="376"/>
+	<parameter name="id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="logo" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="background" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ttd" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select id, no_suket, npk, nama, kd_pt, 
+case when kd_pt = 'AND' then 'PT. ASTRA NTN DRIVESHAFT INDONESIA' 
+when kd_pt = 'GKD' then 'PT. GEMALA KEMPA DAYA' 
+when kd_pt = 'AGI' then 'PT. ASANO GEAR INDONESIA'
+when kd_pt = 'WEP' then 'PT. WAHANA EKA PARAMITRA' 
+else 'PT. INTI GANDA PERDANA' 
+end as nm_pt, 
+status, kd_dep, nm_dep, alm_ktp, alm_domisili, to_char(tgl_awal,'dd/mm/yyyy') tgL_awal, to_char(tgl_akhir,'dd/mm/yyyy') tgl_akhir, npk_atasan, approve_npk, initcap(replace(trim(to_char(approve_tgl,'dd month yyyy')), '  ', '')) approve_tgl, reject_npk, reject_tgl, reject_ket, dtcrea, creaby, dtmodi, modiby, initcap(replace(trim(to_char(tgl_awal,'dd month yyyy')), '  ', '')) tgl_ttd
+from hrdt_sukets 
+where id = $P{id}  and approve_tgl is not null and approvedep_tgl is not null and approvediv_tgl is not null]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="no_suket" class="java.lang.String"/>
+	<field name="npk" class="java.lang.String"/>
+	<field name="nama" class="java.lang.String"/>
+	<field name="kd_pt" class="java.lang.String"/>
+	<field name="nm_pt" class="java.lang.String"/>
+	<field name="status" class="java.lang.String"/>
+	<field name="kd_dep" class="java.lang.String"/>
+	<field name="nm_dep" class="java.lang.String"/>
+	<field name="alm_ktp" class="java.lang.String"/>
+	<field name="alm_domisili" class="java.lang.String"/>
+	<field name="tgl_awal" class="java.lang.String"/>
+	<field name="tgl_akhir" class="java.lang.String"/>
+	<field name="npk_atasan" class="java.lang.String"/>
+	<field name="approve_npk" class="java.lang.String"/>
+	<field name="approve_tgl" class="java.lang.String"/>
+	<field name="reject_npk" class="java.lang.String"/>
+	<field name="reject_tgl" class="java.sql.Timestamp"/>
+	<field name="reject_ket" class="java.lang.String"/>
+	<field name="dtcrea" class="java.sql.Timestamp"/>
+	<field name="creaby" class="java.lang.String"/>
+	<field name="dtmodi" class="java.sql.Timestamp"/>
+	<field name="modiby" class="java.lang.String"/>
+	<field name="tgl_ttd" class="java.lang.String"/>
+	<background>
+		<band height="802" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="555" height="802" uuid="dcb551dc-a5b7-41ec-902b-9d5cc7864690"/>
+				<imageExpression><![CDATA[$P{background}]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<detail>
+		<band height="802" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="125" width="555" height="20" uuid="e3da2f4b-0eac-4483-9b8c-907a2b30431f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="16" isBold="true" isUnderline="true" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[S U R A T   K E T E R A N G A N]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="145" width="555" height="20" uuid="978f20e9-2596-457d-b1d0-52fd37b91c8c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA["No : " + $F{no_suket}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="52" y="180" width="450" height="20" uuid="45845181-5679-407e-8471-ca03b27cffc0"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Yang bertanda tangan di bawah ini menerangkan bahwa pemegang surat ini :"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="70" y="200" width="85" height="18" uuid="bbc5e307-1d3e-43da-939d-a61d458d984c"/>
+				<box topPadding="2"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<text><![CDATA[Nama]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="70" y="218" width="85" height="18" uuid="274d1410-a96f-435c-9280-c585e81cfce7"/>
+				<box topPadding="2"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<text><![CDATA[NPK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="70" y="236" width="85" height="18" uuid="132fe5d8-08cf-46e0-ab3d-c93d9ee68005"/>
+				<box topPadding="2"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<text><![CDATA[PT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="70" y="254" width="85" height="18" uuid="c160e5e5-22df-4bba-8d3d-d957a699d87c"/>
+				<box topPadding="2"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<text><![CDATA[Status]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="70" y="272" width="85" height="18" uuid="f1cdbea0-a2c8-4dee-82b1-fb394fb11853"/>
+				<box topPadding="2"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<text><![CDATA[Dept]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="70" y="290" width="85" height="18" uuid="a69a7b2e-5a1a-4879-a5f8-55c89bf6b273"/>
+				<box topPadding="2"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<text><![CDATA[Alamat KTP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="70" y="344" width="85" height="18" uuid="07776d39-258f-43f3-80e0-5170f61c23cd"/>
+				<box topPadding="2"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<text><![CDATA[Alamat Domisili]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="155" y="200" width="15" height="18" uuid="9639b40f-b120-4685-ba78-7da6ed4eddcb"/>
+				<box topPadding="2"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="155" y="218" width="15" height="18" uuid="d239f0c8-8b67-43cd-b3ed-8344aa6aa98f"/>
+				<box topPadding="2"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="155" y="236" width="15" height="18" uuid="2add376b-242f-40db-8374-4465d656c68a"/>
+				<box topPadding="2"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="155" y="254" width="15" height="18" uuid="3a6f434b-6150-4bfe-a0fe-43ff46ad326b"/>
+				<box topPadding="2"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="155" y="272" width="15" height="18" uuid="28c0357d-37c2-4224-a564-e21ab7036514"/>
+				<box topPadding="2"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="155" y="290" width="15" height="18" uuid="76de6a2e-dd33-4494-8667-f1a5c3c68890"/>
+				<box topPadding="2"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="155" y="344" width="15" height="18" uuid="169fa0eb-82b0-4eb3-addc-561ba4939ddb"/>
+				<box topPadding="2"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="170" y="200" width="332" height="18" uuid="fed3a90c-a483-4544-ae75-eabcc180c4f9"/>
+				<box topPadding="2"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nama}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="170" y="218" width="332" height="18" uuid="5c3d7a8f-09ab-4e59-bbf4-82c1a461432f"/>
+				<box topPadding="2"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{npk}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="170" y="236" width="332" height="18" uuid="6e9c6cd6-d503-4ebf-bada-e43ca93eb0c2"/>
+				<box topPadding="2"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{kd_pt}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="170" y="254" width="332" height="18" uuid="c3da3179-06f6-46ec-914f-fa62b7d84289"/>
+				<box topPadding="2"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="170" y="272" width="332" height="18" uuid="cc06c803-104e-4f7c-bd43-d9139dc53730"/>
+				<box topPadding="2"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_dep}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="170" y="290" width="332" height="54" uuid="aeb42584-50f7-4ea0-9c4c-ef814df50f0d"/>
+				<box topPadding="2"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{alm_ktp}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="170" y="344" width="332" height="54" uuid="74467f92-983c-475f-864e-452166cf8dbe"/>
+				<box topPadding="2"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{alm_domisili}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="52" y="398" width="450" height="125" uuid="c7df8c06-b704-4908-b9f3-6fc080752337"/>
+				<box topPadding="2"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Tahoma" size="12"/>
+					<paragraph lineSpacing="Single" lineSpacingSize="1.2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Adalah benar karyawan PT. ASTRA NTN DRIVESHAFT INDONESIA yang beralamat di Kawasan Industri Mitra Karawang JL. Mitra Raya IV Blok L-2, Parungmulya, Ciampel, Kabupaten Karawang, Jawa Barat, yang pada saat PPKM Darurat Jawa Bali COVID-19 ini berdasarkan Surat Keterangan / Izin Operasional Dan Mobilitas Kegiatan Industri Nomor : 00105 / PT. ANDIN yang dikeluarkan oleh Kementrian Perindustrian Republik Indonesia, yang bersangkutan ditugaskan untuk bekerja dari tanggal " + $F{tgl_awal} + " sampai tanggal " + $F{tgl_akhir} + " (baik di shift malam maupun pagi, tergantung kebutuhan)."]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="52" y="523" width="450" height="20" uuid="7129cb84-06d4-4942-8d9d-73a0c25f33fa"/>
+				<box topPadding="2"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Tahoma" size="12"/>
+					<paragraph lineSpacing="Proportional" lineSpacingSize="1.2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Demikian, surat ini dibuat untuk memberitahukan kepada pihak terkait."]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="52" y="565" width="450" height="20" uuid="5736d655-e201-40be-be59-fbaf1d5c316f"/>
+				<box topPadding="2"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font fontName="Tahoma" size="12"/>
+					<paragraph lineSpacing="Proportional" lineSpacingSize="1.2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Karawang, " + $F{tgl_ttd} + "\nHormat kami, "]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="45" y="585" width="166" height="50" uuid="8b015ee5-cb17-48c7-8b1e-f438b72f479c"/>
+				<imageExpression><![CDATA[$P{ttd}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="52" y="635" width="349" height="18" uuid="43700b4c-206b-4d0c-aa6d-c64af38614f0"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma" size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Rudy Andriyanto"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="52" y="653" width="349" height="18" uuid="38a896ec-bc33-4165-9a57-918e00f45f04"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Tahoma" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["HR & GA Deputy Division Head"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

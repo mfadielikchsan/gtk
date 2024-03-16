@@ -1,0 +1,692 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="6.115909044841463"/>
+	<property name="ireport.x" value="2741"/>
+	<property name="ireport.y" value="120"/>
+	<parameter name="id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="logo" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\Lenovo\\Documents\\NetBeansProjects\\PerformanceAppraisal\\src\\performanceappraisal\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select (select desc_dep from v_mas_karyawan v where v.kode_dep = h.kd_dep limit 1) desc_dep,(case 
+	when vmk.kd_pt = 'IGP' then 'PT. INTI GANDA PERDANA' 
+	when vmk.kd_pt = 'GKD' then 'PT. GEMALA KEMPA DAYA' 
+	when vmk.kd_pt = 'WEP' then 'PT. WAHANA EKA PARAMITRA' 
+	when vmk.kd_pt = 'AND' then 'PT. ANDIN' 
+	when vmk.kd_pt = 'AGI' then 'PT. ASANO GEAR INDONESIA'
+	when vmk.kd_pt = 'AWI' then 'PT. AKASHI WAHANA INDONESIA'
+	else '-'
+end) nm_pt,
+(select desc_div from v_mas_karyawan v where v.kode_div = h.kd_div limit 1) desc_div ,(select nama from v_mas_karyawan v where v.npk = h.approve_mid_dep_pic) nama2,
+(select nama from v_mas_karyawan v where v.npk = h.npk limit 1) nama, h.* from hrdt_ipp1s h inner join v_mas_karyawan vmk on vmk.npk = h.npk where h.id = $P{id}]]>
+	</queryString>
+	<field name="desc_dep" class="java.lang.String"/>
+	<field name="nm_pt" class="java.lang.String"/>
+	<field name="desc_div" class="java.lang.String"/>
+	<field name="nama2" class="java.lang.String"/>
+	<field name="nama" class="java.lang.String"/>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="no_ipp" class="java.lang.String"/>
+	<field name="revisi" class="java.math.BigDecimal"/>
+	<field name="npk" class="java.lang.String"/>
+	<field name="tahun" class="java.lang.String"/>
+	<field name="kd_pt" class="java.lang.String"/>
+	<field name="kd_dep" class="java.lang.String"/>
+	<field name="kd_div" class="java.lang.String"/>
+	<field name="kd_gol" class="java.lang.String"/>
+	<field name="st_sub" class="java.lang.String"/>
+	<field name="npk_superior1" class="java.lang.String"/>
+	<field name="npk_superior2" class="java.lang.String"/>
+	<field name="npk_hrd" class="java.lang.String"/>
+	<field name="submit" class="java.lang.String"/>
+	<field name="submit_tgl" class="java.sql.Timestamp"/>
+	<field name="approve_dep_pic" class="java.lang.String"/>
+	<field name="approve_dep_tgl" class="java.sql.Timestamp"/>
+	<field name="reject_dep_pic" class="java.lang.String"/>
+	<field name="reject_dep_tgl" class="java.sql.Timestamp"/>
+	<field name="reject_dep_ket" class="java.lang.String"/>
+	<field name="approve_div_pic" class="java.lang.String"/>
+	<field name="approve_div_tgl" class="java.sql.Timestamp"/>
+	<field name="reject_div_pic" class="java.lang.String"/>
+	<field name="reject_div_tgl" class="java.sql.Timestamp"/>
+	<field name="reject_div_ket" class="java.lang.String"/>
+	<field name="approve_hr_pic" class="java.lang.String"/>
+	<field name="approve_hr_tgl" class="java.sql.Timestamp"/>
+	<field name="reject_hr_pic" class="java.lang.String"/>
+	<field name="reject_hr_tgl" class="java.sql.Timestamp"/>
+	<field name="reject_hr_ket" class="java.lang.String"/>
+	<field name="submit_mid" class="java.lang.String"/>
+	<field name="submit_mid_pic" class="java.lang.String"/>
+	<field name="submit_mid_tgl" class="java.sql.Timestamp"/>
+	<field name="approve_mid_dep_pic" class="java.lang.String"/>
+	<field name="approve_mid_dep_tgl" class="java.sql.Timestamp"/>
+	<field name="reject_mid_dep_pic" class="java.lang.String"/>
+	<field name="reject_mid_dep_tgl" class="java.sql.Timestamp"/>
+	<field name="reject_mid_dep_ket" class="java.lang.String"/>
+	<field name="approve_mid_div_pic" class="java.lang.String"/>
+	<field name="approve_mid_div_tgl" class="java.sql.Timestamp"/>
+	<field name="reject_mid_div_pic" class="java.lang.String"/>
+	<field name="reject_mid_div_tgl" class="java.sql.Timestamp"/>
+	<field name="reject_mid_div_ket" class="java.lang.String"/>
+	<field name="approve_mid_hr_pic" class="java.lang.String"/>
+	<field name="approve_mid_hr_tgl" class="java.sql.Timestamp"/>
+	<field name="reject_mid_hr_pic" class="java.lang.String"/>
+	<field name="reject_mid_hr_tgl" class="java.sql.Timestamp"/>
+	<field name="reject_mid_hr_ket" class="java.lang.String"/>
+	<field name="submit_one" class="java.lang.String"/>
+	<field name="submit_one_pic" class="java.lang.String"/>
+	<field name="submit_one_tgl" class="java.sql.Timestamp"/>
+	<field name="submit_pa" class="java.lang.String"/>
+	<field name="submit_pa_tgl" class="java.sql.Timestamp"/>
+	<field name="submit_pa_pic" class="java.lang.String"/>
+	<field name="approve_one_dep_pic" class="java.lang.String"/>
+	<field name="approve_one_dep_tgl" class="java.sql.Timestamp"/>
+	<field name="reject_one_dep_pic" class="java.lang.String"/>
+	<field name="reject_one_dep_tgl" class="java.sql.Timestamp"/>
+	<field name="reject_one_dep_ket" class="java.lang.String"/>
+	<field name="approve_one_div_pic" class="java.lang.String"/>
+	<field name="approve_one_div_tgl" class="java.sql.Timestamp"/>
+	<field name="reject_one_div_tgl" class="java.sql.Timestamp"/>
+	<field name="reject_one_div_ket" class="java.lang.String"/>
+	<field name="approve_one_hr_pic" class="java.lang.String"/>
+	<field name="approve_one_hr_tgl" class="java.sql.Timestamp"/>
+	<field name="reject_one_hr_pic" class="java.lang.String"/>
+	<field name="reject_one_hr_tgl" class="java.sql.Timestamp"/>
+	<field name="reject_one_hr_ket" class="java.lang.String"/>
+	<field name="mid_rev_pic" class="java.lang.String"/>
+	<field name="mid_rev_tgl" class="java.sql.Timestamp"/>
+	<field name="one_rev_pic" class="java.lang.String"/>
+	<field name="one_rev_tgl" class="java.sql.Timestamp"/>
+	<field name="mid_value" class="java.math.BigDecimal"/>
+	<field name="mid_grade" class="java.lang.String"/>
+	<field name="one_value" class="java.math.BigDecimal"/>
+	<field name="one_grade" class="java.lang.String"/>
+	<field name="final_value" class="java.math.BigDecimal"/>
+	<field name="final_grade" class="java.lang.String"/>
+	<field name="final_grade_rev" class="java.lang.String"/>
+	<field name="final_grade_rev_pic" class="java.lang.String"/>
+	<field name="final_grade_rev_tgl" class="java.sql.Timestamp"/>
+	<field name="status" class="java.lang.String"/>
+	<field name="status_mid" class="java.lang.String"/>
+	<field name="status_one" class="java.lang.String"/>
+	<field name="lvl_pos" class="java.lang.String"/>
+	<field name="creaby" class="java.lang.String"/>
+	<field name="dtcrea" class="java.sql.Timestamp"/>
+	<field name="modiby" class="java.lang.String"/>
+	<field name="dtmodi" class="java.sql.Timestamp"/>
+	<field name="npk_lama" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="147" splitType="Stretch">
+			<image>
+				<reportElement x="13" y="0" width="100" height="40"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="131" y="0" width="279" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INDIVIDUAL PERFORMANCE PLAN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="131" y="20" width="279" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[(Process Review & Summary Sheet)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="117" width="554" height="20"/>
+				<box topPadding="2">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROCESS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="427" y="90" width="127" height="23"/>
+				<box rightPadding="2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Personal & Confidential]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="410" y="45" width="65" height="15"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true"/>
+					<paragraph tabStopWidth="20"/>
+				</textElement>
+				<text><![CDATA[Submit	:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="410" y="0" width="65" height="15"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true"/>
+					<paragraph tabStopWidth="20"/>
+				</textElement>
+				<text><![CDATA[IPP No	:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="410" y="60" width="65" height="15"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true"/>
+					<paragraph tabStopWidth="20"/>
+				</textElement>
+				<text><![CDATA[Page	:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="410" y="15" width="65" height="15"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true"/>
+					<paragraph tabStopWidth="20"/>
+				</textElement>
+				<text><![CDATA[Revisi	:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="410" y="30" width="65" height="15"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true"/>
+					<paragraph tabStopWidth="20"/>
+				</textElement>
+				<text><![CDATA[Date	:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="475" y="0" width="79" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{no_ipp}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="475" y="15" width="79" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{revisi}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="475" y="30" width="79" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{submit_tgl}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="475" y="45" width="79" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{submit_pa_tgl}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement x="0" y="60" width="231" height="45"/>
+				<textField>
+					<reportElement x="87" y="0" width="144" height="15"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{nama}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="87" y="15" width="144" height="15"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{desc_dep}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="87" y="30" width="144" height="15"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{desc_div}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="0" width="87" height="15"/>
+					<box leftPadding="2"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" isBold="true"/>
+						<paragraph tabStopWidth="20"/>
+					</textElement>
+					<text><![CDATA[Name			:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="15" width="87" height="15"/>
+					<box leftPadding="2"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" isBold="true"/>
+						<paragraph tabStopWidth="20"/>
+					</textElement>
+					<text><![CDATA[Department	:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="30" width="87" height="15"/>
+					<box leftPadding="2"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" isBold="true"/>
+						<paragraph tabStopWidth="20"/>
+					</textElement>
+					<text><![CDATA[Division		:]]></text>
+				</staticText>
+			</frame>
+			<textField>
+				<reportElement x="475" y="60" width="45" height="15"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="521" y="60" width="33" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA["/ " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="41" splitType="Stretch">
+			<staticText>
+				<reportElement x="187" y="15" width="90" height="13"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Achievement]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="465" y="15" width="90" height="13"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Achievement]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="15" width="187" height="26"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Aspect]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="278" y="15" width="187" height="26"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Aspect]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="187" y="28" width="45" height="13"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mid Year]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="277" height="15"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[B1. PDCA & Values]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="278" y="0" width="277" height="15"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[B2. People Management]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="232" y="28" width="45" height="13"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[One Year]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="465" y="28" width="45" height="13"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mid Year]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="510" y="28" width="45" height="13"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[One Year]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="102" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="0" width="277" height="81"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<subreport>
+					<reportElement x="1" y="0" width="276" height="81"/>
+					<subreportParameter name="SUBREPORT_DIR">
+						<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="id">
+						<subreportParameterExpression><![CDATA[$P{id}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "ippnewpa_subreport3.jasper"]]></subreportExpression>
+				</subreport>
+			</frame>
+			<subreport>
+				<reportElement x="278" y="0" width="277" height="81"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="id">
+					<subreportParameterExpression><![CDATA[$P{id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "ippnewpa_subreport4.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="152">
+			<staticText>
+				<reportElement x="277" y="0" width="278" height="15"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ONE YEAR REVIEW]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="277" height="15"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[MID YEAR REVIEW]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="0" y="15" width="277" height="63"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="id">
+					<subreportParameterExpression><![CDATA[$P{id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "ippnewpa_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="278" y="15" width="277" height="63"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="id">
+					<subreportParameterExpression><![CDATA[$P{id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "ippnewpa_subreport2.jasper"]]></subreportExpression>
+			</subreport>
+			<frame>
+				<reportElement x="0" y="78" width="277" height="74"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+			</frame>
+			<staticText>
+				<reportElement x="131" y="104" width="108" height="15"/>
+				<box leftPadding="0" rightPadding="3">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mid Year Grade]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="131" y="89" width="108" height="15"/>
+				<box leftPadding="0" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mid Year Value]]></text>
+			</staticText>
+			<textField pattern="###0.00">
+				<reportElement x="239" y="89" width="30" height="15"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mid_value}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="239" y="104" width="30" height="15"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mid_grade}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement x="0" y="15" width="277" height="63"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="278" y="15" width="277" height="63"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+			</frame>
+			<staticText>
+				<reportElement x="410" y="104" width="102" height="15"/>
+				<box leftPadding="0" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[One Year Grade]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="410" y="89" width="102" height="15"/>
+				<box leftPadding="0" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[One Year Value]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="517" y="89" width="30" height="15"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{one_value}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="517" y="104" width="30" height="15"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{one_grade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="517" y="120" width="30" height="15"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{final_value}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="517" y="135" width="30" height="15"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{final_grade}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="410" y="119" width="102" height="15"/>
+				<box leftPadding="0" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Final Value]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="410" y="135" width="102" height="15"/>
+				<box leftPadding="0" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Grading]]></text>
+			</staticText>
+			<frame>
+				<reportElement x="278" y="78" width="277" height="74"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+			</frame>
+		</band>
+	</detail>
+</jasperReport>

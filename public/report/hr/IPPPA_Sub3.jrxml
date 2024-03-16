@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="IPPPA_Sub3 (B1)" language="groovy" pageWidth="277" pageHeight="802" columnWidth="277" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="9279f55f-ee3b-497e-90fa-50497d25d96d">
+	<property name="ireport.zoom" value="3.1384283767210084"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="no_ipp" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="revisi" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT A.URUT, A.DESC_ASPECT, (A.URUT || '. ' || A.DESC_ASPECT) DISPLAY,
+A.KD_PAPROCESS, B.SCORE_MID, B.SCORE_OYR 
+FROM TCIPP002M A, TCIPP004T B
+WHERE A.KD_PAPROCESS = 'B1'
+AND A.KD_ASPECT = B.KD_ASPECT 
+AND B.NO_IPP = $P{no_ipp}
+AND B.REVISI = $P{revisi}
+ORDER BY A.URUT ASC]]>
+	</queryString>
+	<field name="URUT" class="java.math.BigDecimal"/>
+	<field name="DESC_ASPECT" class="java.lang.String"/>
+	<field name="DISPLAY" class="java.lang.String"/>
+	<field name="KD_PAPROCESS" class="java.lang.String"/>
+	<field name="SCORE_MID" class="java.math.BigDecimal"/>
+	<field name="SCORE_OYR" class="java.math.BigDecimal"/>
+	<variable name="avg_mid" class="java.math.BigDecimal" calculation="Average">
+		<variableExpression><![CDATA[$F{SCORE_MID}]]></variableExpression>
+	</variable>
+	<variable name="avg_oyr" class="java.math.BigDecimal" calculation="Average">
+		<variableExpression><![CDATA[$F{SCORE_OYR}]]></variableExpression>
+	</variable>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="187" height="15" uuid="9a2d0111-9a3e-465c-af63-3ca8a2a95763"/>
+				<box topPadding="0" leftPadding="5">
+					<leftPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DISPLAY}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="187" y="0" width="45" height="15" uuid="54d9b1e6-01d6-47ee-bd65-464db047ecb5"/>
+				<box>
+					<leftPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SCORE_MID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="232" y="0" width="45" height="15" uuid="02b57859-3de5-411b-a66a-90d0c8934bb6"/>
+				<box>
+					<leftPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SCORE_OYR}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="15">
+			<staticText>
+				<reportElement x="0" y="0" width="187" height="15" uuid="d8e8ac0d-c981-4885-b5d6-7d995348f490"/>
+				<box leftPadding="5" rightPadding="5">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Average]]></text>
+			</staticText>
+			<textField pattern="###0.00">
+				<reportElement x="187" y="0" width="45" height="15" uuid="b8672570-1b7e-4700-bfb8-b02789813fae"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{avg_mid}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="232" y="0" width="45" height="15" uuid="0877c369-008d-41ff-a2f7-d8ea1df78ddf"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{avg_oyr}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

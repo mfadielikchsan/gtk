@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="802" pageHeight="129" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isSummaryWithPageHeaderAndFooter="true" uuid="107ed557-933e-4e7c-bb35-59ff05f6436b">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="no_ops" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select v1.*
+from (
+	select 
+		row_number () over (order by v.no_pp, v.kd_brg) as no,
+		v.no_oh, replace(to_char(v.tgl_oh, 'dd-MON-yyyy'),' ','') tgl_oh, v.ket_resume, v.pic_submit, 
+		(select coalesce(initial, npk) from v_mas_karyawan where npk = v.pic_submit) initial,
+		v.no_pp, v.kd_brg, 
+		v.st_r_nr_inv, v.ket_r_nr_inv, to_char (v.budget::float, 'FM9,999,999,999,999,999') budget, 
+		to_char (v.realisasi::float, 'FM9,999,999,999,999,999') realisasi, 
+		to_char ((v.budget - v.realisasi)::float, 'FM9,999,999,999,999,999') sisa, 
+		v.no_ia,v.no_urut_ia, to_char (v.qty_pp::float, 'FM999999990.00') qty_pp, v.kd_sat_pp, v.item_no, 
+		v.nm_item, v.kd_sup_1, coalesce(v.nm_sup_1,'') nm_sup_1, 
+		case
+			when nm_sup_1 is not null then '1'
+			else '0'
+		end flag_nm_sup1,
+		--------
+		coalesce(v.kd_curr_ops_1, '') kd_curr_ops_1, to_char (v.hrg_unit_bruto_1::float, 'FM9,999,999,999,999,999.00') hrg_unit_bruto_1, v.disc_persen_1, 
+		coalesce(to_char (v.hrg_unit_1::float*coalesce((select x1.nil_kurs from tiprc016ts x1 where x1.no_oh = v.no_oh and x1.kd_curr = v.kd_curr_ops_1 limit 1), 0)::float, 'FM9,999,999,999,999,999'),'') hrg_unit_1,
+		coalesce(
+			case 
+				when v.kd_curr_ops_1 = 'IDR' then
+					v.kd_curr_ops_1||' '||to_char (v.hrg_unit_bruto_1::float, 'FM9,999,999,999,999,999')||' -> '||
+						to_char (v.hrg_unit_1::float*coalesce((select x1.nil_kurs from tiprc016ts x1 where x1.no_oh = v.no_oh and x1.kd_curr = v.kd_curr_ops_1 limit 1), 0)::float, 'FM9,999,999,999,999,999')
+						||' x '||to_char (v.qty_pp::float, 'FM999999990')||' = '
+				else 
+					v.kd_curr_ops_1||' '||to_char (v.hrg_unit_1::float, 'FM9,999,999,999,999,999')
+					||' x '||to_char (v.qty_pp::float, 'FM999999990')||' = '||
+					v.kd_curr_ops_1||' '||to_char (v.hrg_unit_1::float*v.qty_pp::float, 'FM9,999,999,999,999,999')
+			end,''
+		) hrg_label_sup1,
+		v.npk_approv_1,
+		coalesce(
+			case 
+				when v.kd_curr_ops_1 = 'IDR' then
+					to_char(((v.hrg_unit_1::float * coalesce((select x1.nil_kurs from tiprc016ts x1 where x1.no_oh = v.no_oh and x1.kd_curr = v.kd_curr_ops_1 limit 1), 0)::float) * v.qty_pp::float) * coalesce((select x1.nil_kurs from tiprc016ts x1 where x1.no_oh = v.no_oh and x1.kd_curr = v.kd_curr_ops_1 limit 1), 0)::float, 'FM9,999,999,999,999,999')
+				else 
+					to_char((v.hrg_unit_1::float * v.qty_pp::float) * coalesce((select x1.nil_kurs from tiprc016ts x1 where x1.no_oh = v.no_oh and x1.kd_curr = v.kd_curr_ops_1 limit 1), 0)::float, 'FM9,999,999,999,999,999')
+			end
+			,''
+		) hrg_labelx_sup1,
+		--------
+		coalesce(
+			(select va0.jml_skor from prcv_oh_skor_supp va0 where 
+				va0.no_oh = v.no_oh and
+				va0.kd_supp = v.kd_sup_1)::text,''
+		) sup1_jml_skor,
+		coalesce(
+			(select va1.nil_skor from prct_oh_skors va1 where 
+				va1.no_oh = v.no_oh and
+				va1.kd_supp = v.kd_sup_1 and va1.kd_skor = 'Q')::text,''
+		) sup1_spek,
+		coalesce(
+			(select va2.nil_skor from prct_oh_skors va2 where 
+				va2.no_oh = v.no_oh and
+				va2.kd_supp = v.kd_sup_1 and va2.kd_skor = 'C1')::text,''
+		) sup1_tothrg,
+		coalesce(
+			(select va3.nil_skor from prct_oh_skors va3 where 
+				va3.no_oh = v.no_oh and
+				va3.kd_supp = v.kd_sup_1 and va3.kd_skor = 'C2')::text,''
+		) sup1_term,
+		coalesce(
+			(select va4.nil_skor from prct_oh_skors va4 where 
+				va4.no_oh = v.no_oh and
+				va4.kd_supp = v.kd_sup_1 and va4.kd_skor = 'D')::text,''
+		) sup1_del,
+		coalesce(
+			(select va5.nil_skor from prct_oh_skors va5 where 
+				va5.no_oh = v.no_oh and
+				va5.kd_supp = v.kd_sup_1 and va5.kd_skor = 'OG')::text,''
+		) sup1_garansi,
+		coalesce(
+			(select va6.nil_skor from prct_oh_skors va6 where 
+				va6.no_oh = v.no_oh and
+				va6.kd_supp = v.kd_sup_1 and va6.kd_skor = 'OS')::text,''
+		) sup1_aftersales,
+		coalesce(
+			(select va7.nil_skor from prct_oh_skors va7 where 
+				va7.no_oh = v.no_oh and
+				va7.kd_supp = v.kd_sup_1 and va7.kd_skor = 'OA')::text,''
+		) sup1_accesory,
+		coalesce(
+			(select va8.nil_skor from prct_oh_skors va8 where 
+			va8.no_oh = v.no_oh and
+			va8.kd_supp = v.kd_sup_1 and va8.kd_skor = 'O')::text,''
+		) sup1_other_adv,
+		coalesce(
+			(select va9.nil_skor from prct_oh_skors va9 where 
+				va9.no_oh = v.no_oh and
+				va9.kd_supp = v.kd_sup_1 and va9.kd_skor = 'OR')::text,''
+		) sup1_ref,
+		v.kd_sup_2, coalesce(v.nm_sup_2,'') nm_sup_2,
+		case
+			when nm_sup_2 is not null then '1'
+			else '0'
+		end flag_nm_sup2,
+		------
+		coalesce(v.kd_curr_ops_2,'') kd_curr_ops_2, to_char (v.hrg_unit_bruto_2::float, 'FM9,999,999,999,999,999.00') hrg_unit_bruto_2, v.disc_persen_2, 
+		coalesce(to_char (v.hrg_unit_2::float*coalesce((select x1.nil_kurs from tiprc016ts x1 where x1.no_oh = v.no_oh and x1.kd_curr = v.kd_curr_ops_2 limit 1), 0)::float, 'FM9,999,999,999,999,999'),'') hrg_unit_2,
+		coalesce(
+			case 
+				when v.kd_curr_ops_2 = 'IDR' then
+					v.kd_curr_ops_2||' '||to_char (v.hrg_unit_bruto_2::float, 'FM9,999,999,999,999,999')||' -> '||
+						to_char (v.hrg_unit_2::float*coalesce((select x1.nil_kurs from tiprc016ts x1 where x1.no_oh = v.no_oh and x1.kd_curr = v.kd_curr_ops_2 limit 1), 0)::float, 'FM9,999,999,999,999,999')
+						||' x '||to_char (v.qty_pp::float, 'FM999999990')||' = '
+				else 
+					v.kd_curr_ops_2||' '||to_char (v.hrg_unit_2::float, 'FM9,999,999,999,999,999')
+					||' x '||to_char (v.qty_pp::float, 'FM999999990')||' = '||
+					v.kd_curr_ops_2||' '||to_char (v.hrg_unit_2::float*v.qty_pp::float, 'FM9,999,999,999,999,999')
+			end,''
+		) hrg_label_sup2,
+		v.npk_approv_2,
+		coalesce(
+			case 
+				when v.kd_curr_ops_2 = 'IDR' then
+					to_char(((v.hrg_unit_2::float * coalesce((select x1.nil_kurs from tiprc016ts x1 where x1.no_oh = v.no_oh and x1.kd_curr = v.kd_curr_ops_2 limit 1), 0)::float) * v.qty_pp::float) * coalesce((select x1.nil_kurs from tiprc016ts x1 where x1.no_oh = v.no_oh and x1.kd_curr = v.kd_curr_ops_2 limit 1), 0)::float, 'FM9,999,999,999,999,999')
+				else 
+					to_char((v.hrg_unit_2::float * v.qty_pp::float) * coalesce((select x1.nil_kurs from tiprc016ts x1 where x1.no_oh = v.no_oh and x1.kd_curr = v.kd_curr_ops_2 limit 1), 0)::float, 'FM9,999,999,999,999,999')
+			end
+			,''
+		) hrg_labelx_sup2,
+		------
+		coalesce(
+			(select va0.jml_skor from prcv_oh_skor_supp va0 where 
+				va0.no_oh = v.no_oh and
+				va0.kd_supp = v.kd_sup_2)::text,''
+		) sup2_jml_skor,
+		coalesce(
+			(select va1.nil_skor from prct_oh_skors va1 where 
+				va1.no_oh = v.no_oh and
+				va1.kd_supp = v.kd_sup_2 and va1.kd_skor = 'Q')::text,''
+		) sup2_spek,
+		coalesce(
+			(select va2.nil_skor from prct_oh_skors va2 where 
+				va2.no_oh = v.no_oh and
+				va2.kd_supp = v.kd_sup_2 and va2.kd_skor = 'C1')::text,''
+		) sup2_tothrg,
+		coalesce(
+			(select va3.nil_skor from prct_oh_skors va3 where 
+				va3.no_oh = v.no_oh and
+				va3.kd_supp = v.kd_sup_2 and va3.kd_skor = 'C2')::text,''
+		) sup2_term,
+		coalesce(
+			(select va4.nil_skor from prct_oh_skors va4 where 
+				va4.no_oh = v.no_oh and
+				va4.kd_supp = v.kd_sup_2 and va4.kd_skor = 'D')::text,''
+		) sup2_del,
+		coalesce(
+			(select va5.nil_skor from prct_oh_skors va5 where 
+				va5.no_oh = v.no_oh and
+				va5.kd_supp = v.kd_sup_2 and va5.kd_skor = 'OG')::text,''
+		) sup2_garansi,
+		coalesce(
+			(select va6.nil_skor from prct_oh_skors va6 where 
+				va6.no_oh = v.no_oh and
+				va6.kd_supp = v.kd_sup_2 and va6.kd_skor = 'OS')::text,''
+		) sup2_aftersales,
+		coalesce(
+			(select va7.nil_skor from prct_oh_skors va7 where 
+				va7.no_oh = v.no_oh and
+				va7.kd_supp = v.kd_sup_2 and va7.kd_skor = 'OA')::text,''
+		) sup2_accesory,
+		coalesce(
+			(select va8.nil_skor from prct_oh_skors va8 where 
+			va8.no_oh = v.no_oh and
+			va8.kd_supp = v.kd_sup_2 and va8.kd_skor = 'O')::text,''
+		) sup2_other_adv,
+		coalesce(
+			(select va9.nil_skor from prct_oh_skors va9 where 
+				va9.no_oh = v.no_oh and
+				va9.kd_supp = v.kd_sup_2 and va9.kd_skor = 'OR')::text,''
+		) sup2_ref,
+		v.kd_sup_3, coalesce(v.nm_sup_3,'') nm_sup_3,
+		case
+			when nm_sup_3 is not null then '1'
+			else '0'
+		end flag_nm_sup3,
+		------
+		coalesce(v.kd_curr_ops_3, '') kd_curr_ops_3 , to_char (v.hrg_unit_bruto_3::float, 'FM9,999,999,999,999,999.00') hrg_unit_bruto_3, v.disc_persen_3, 
+		coalesce(to_char (v.hrg_unit_3::float*coalesce((select x1.nil_kurs from tiprc016ts x1 where x1.no_oh = v.no_oh and x1.kd_curr = v.kd_curr_ops_3 limit 1), 0)::float, 'FM9,999,999,999,999,999'),'') hrg_unit_3,
+		coalesce(
+			case 
+				when v.kd_curr_ops_3 = 'IDR' then
+					v.kd_curr_ops_3||' '||to_char (v.hrg_unit_bruto_3::float, 'FM9,999,999,999,999,999')||' -> '||
+						to_char (v.hrg_unit_3::float*coalesce((select x1.nil_kurs from tiprc016ts x1 where x1.no_oh = v.no_oh and x1.kd_curr = v.kd_curr_ops_3 limit 1), 0)::float, 'FM9,999,999,999,999,999')
+						||' x '||to_char (v.qty_pp::float, 'FM999999990')||' = '
+				else 
+					v.kd_curr_ops_3||' '||to_char (v.hrg_unit_3::float, 'FM9,999,999,999,999,999')
+					||' x '||to_char (v.qty_pp::float, 'FM999999990')||' = '||
+					v.kd_curr_ops_3||' '||to_char (v.hrg_unit_3::float*v.qty_pp::float, 'FM9,999,999,999,999,999')
+			end,''
+		) hrg_label_sup3,
+		v.npk_approv_3,
+		coalesce(
+			case 
+				when v.kd_curr_ops_3 = 'IDR' then
+					to_char(((v.hrg_unit_3::float * coalesce((select x1.nil_kurs from tiprc016ts x1 where x1.no_oh = v.no_oh and x1.kd_curr = v.kd_curr_ops_3 limit 1), 0)::float) * v.qty_pp::float) * coalesce((select x1.nil_kurs from tiprc016ts x1 where x1.no_oh = v.no_oh and x1.kd_curr = v.kd_curr_ops_3 limit 1), 0)::float, 'FM9,999,999,999,999,999')
+				else 
+					to_char((v.hrg_unit_3::float * v.qty_pp::float) * coalesce((select x1.nil_kurs from tiprc016ts x1 where x1.no_oh = v.no_oh and x1.kd_curr = v.kd_curr_ops_3 limit 1), 0)::float, 'FM9,999,999,999,999,999')
+			end
+			,''
+		) hrg_labelx_sup3,
+		------
+		coalesce(
+			(select va0.jml_skor from prcv_oh_skor_supp va0 where 
+				va0.no_oh = v.no_oh and
+				va0.kd_supp = v.kd_sup_3)::text,''
+		) sup3_jml_skor,
+		coalesce(
+			(select va1.nil_skor from prct_oh_skors va1 where 
+				va1.no_oh = v.no_oh and
+				va1.kd_supp = v.kd_sup_3 and va1.kd_skor = 'Q')::text,''
+		) sup3_spek,
+		coalesce(
+			(select va2.nil_skor from prct_oh_skors va2 where 
+				va2.no_oh = v.no_oh and
+				va2.kd_supp = v.kd_sup_3 and va2.kd_skor = 'C1')::text,''
+		) sup3_tothrg,
+		coalesce(
+			(select va3.nil_skor from prct_oh_skors va3 where 
+				va3.no_oh = v.no_oh and
+				va3.kd_supp = v.kd_sup_3 and va3.kd_skor = 'C2')::text,''
+		) sup3_term,
+		coalesce(
+			(select va4.nil_skor from prct_oh_skors va4 where 
+				va4.no_oh = v.no_oh and
+				va4.kd_supp = v.kd_sup_3 and va4.kd_skor = 'D')::text,''
+		) sup3_del,
+		coalesce(
+			(select va5.nil_skor from prct_oh_skors va5 where 
+				va5.no_oh = v.no_oh and
+				va5.kd_supp = v.kd_sup_3 and va5.kd_skor = 'OG')::text,''
+		) sup3_garansi,
+		coalesce(
+			(select va6.nil_skor from prct_oh_skors va6 where 
+				va6.no_oh = v.no_oh and
+				va6.kd_supp = v.kd_sup_3 and va6.kd_skor = 'OS')::text,''
+		) sup3_aftersales,
+		coalesce(
+			(select va7.nil_skor from prct_oh_skors va7 where 
+				va7.no_oh = v.no_oh and
+				va7.kd_supp = v.kd_sup_3 and va7.kd_skor = 'OA')::text,''
+		) sup3_accesory,
+		coalesce(
+			(select va8.nil_skor from prct_oh_skors va8 where 
+			va8.no_oh = v.no_oh and
+			va8.kd_supp = v.kd_sup_3 and va8.kd_skor = 'O')::text,''
+		) sup3_other_adv,
+		coalesce(
+			(select va9.nil_skor from prct_oh_skors va9 where 
+				va9.no_oh = v.no_oh and
+				va9.kd_supp = v.kd_sup_3 and va9.kd_skor = 'OR')::text,''
+		) sup3_ref
+	from (
+		select 
+			a.no_oh, c.tgl_oh, c.ket_resume, c.pic_submit, a.no_pp, a.kd_brg, a.st_r_nr_inv, a.ket_r_nr_inv, 
+			(select bgtf_nil_item_iaea('AND', a.no_ia, a.no_urut_ia)) budget,
+			(select prcf_ops_ttl_tarik_ia_idr(a.no_ia, a.no_urut_ia)) realisasi,
+			a.no_ia, a.no_urut_ia, a.qty_pp, a.kd_sat_pp, b.item_no, fnm_item(b.item_no) nm_item, 
+			(select z1.kd_supp from tiprc018ts z1 where z1.no_oh = a.no_oh and z1.no_pp = a.no_pp 
+				and z1.kd_brg = a.kd_brg order by z1.no_oh, z1.no_pp, z1.kd_brg, z1.no_seq limit 1 offset 0) kd_sup_1,
+			(select z11.nm_supp from tiprc018ts z11 where z11.no_oh = a.no_oh and z11.no_pp = a.no_pp 
+				and z11.kd_brg = a.kd_brg order by z11.no_oh, z11.no_pp, z11.kd_brg, z11.no_seq limit 1 offset 0) nm_sup_1,
+			(select z12.kd_curr from tiprc018ts z12 where z12.no_oh = a.no_oh and z12.no_pp = a.no_pp 
+				and z12.kd_brg = a.kd_brg order by z12.no_oh, z12.no_pp, z12.kd_brg, z12.no_seq limit 1 offset 0) kd_curr_ops_1,
+			(select z13.hrg_unit_bruto from tiprc018ts z13 where z13.no_oh = a.no_oh and z13.no_pp = a.no_pp 
+				and z13.kd_brg = a.kd_brg order by z13.no_oh, z13.no_pp, z13.kd_brg, z13.no_seq limit 1 offset 0) hrg_unit_bruto_1,
+			(select z14.disc_persen from tiprc018ts z14 where z14.no_oh = a.no_oh and z14.no_pp = a.no_pp 
+				and z14.kd_brg = a.kd_brg order by z14.no_oh, z14.no_pp, z14.kd_brg, z14.no_seq limit 1 offset 0) disc_persen_1,
+			(select z15.hrg_unit from tiprc018ts z15 where z15.no_oh = a.no_oh and z15.no_pp = a.no_pp 
+				and z15.kd_brg = a.kd_brg order by z15.no_oh, z15.no_pp, z15.kd_brg, z15.no_seq limit 1 offset 0) hrg_unit_1,
+			(select z15.npk_approv from tiprc018ts z15 where z15.no_oh = a.no_oh and z15.no_pp = a.no_pp 
+				and z15.kd_brg = a.kd_brg order by z15.no_oh, z15.no_pp, z15.kd_brg, z15.no_seq limit 1 offset 0) npk_approv_1,
+			(select z1.kd_supp from tiprc018ts z1 where z1.no_oh = a.no_oh and z1.no_pp = a.no_pp 
+				and z1.kd_brg = a.kd_brg order by z1.no_oh, z1.no_pp, z1.kd_brg, z1.no_seq limit 1 offset 1) kd_sup_2,
+			(select z11.nm_supp from tiprc018ts z11 where z11.no_oh = a.no_oh and z11.no_pp = a.no_pp 
+				and z11.kd_brg = a.kd_brg order by z11.no_oh, z11.no_pp, z11.kd_brg, z11.no_seq limit 1 offset 1) nm_sup_2,
+			(select z12.kd_curr from tiprc018ts z12 where z12.no_oh = a.no_oh and z12.no_pp = a.no_pp 
+				and z12.kd_brg = a.kd_brg order by z12.no_oh, z12.no_pp, z12.kd_brg, z12.no_seq limit 1 offset 1) kd_curr_ops_2,
+			(select z13.hrg_unit_bruto from tiprc018ts z13 where z13.no_oh = a.no_oh and z13.no_pp = a.no_pp 
+				and z13.kd_brg = a.kd_brg order by z13.no_oh, z13.no_pp, z13.kd_brg, z13.no_seq limit 1 offset 1) hrg_unit_bruto_2,
+			(select z14.disc_persen from tiprc018ts z14 where z14.no_oh = a.no_oh and z14.no_pp = a.no_pp 
+				and z14.kd_brg = a.kd_brg order by z14.no_oh, z14.no_pp, z14.kd_brg, z14.no_seq limit 1 offset 1) disc_persen_2,
+			(select z15.hrg_unit from tiprc018ts z15 where z15.no_oh = a.no_oh and z15.no_pp = a.no_pp 
+				and z15.kd_brg = a.kd_brg order by z15.no_oh, z15.no_pp, z15.kd_brg, z15.no_seq limit 1 offset 1) hrg_unit_2,
+			(select z15.npk_approv from tiprc018ts z15 where z15.no_oh = a.no_oh and z15.no_pp = a.no_pp 
+				and z15.kd_brg = a.kd_brg order by z15.no_oh, z15.no_pp, z15.kd_brg, z15.no_seq limit 1 offset 1) npk_approv_2,
+			(select z1.kd_supp from tiprc018ts z1 where z1.no_oh = a.no_oh and z1.no_pp = a.no_pp 
+				and z1.kd_brg = a.kd_brg order by z1.no_oh, z1.no_pp, z1.kd_brg, z1.no_seq limit 1 offset 2) kd_sup_3,
+			(select z11.nm_supp from tiprc018ts z11 where z11.no_oh = a.no_oh and z11.no_pp = a.no_pp 
+				and z11.kd_brg = a.kd_brg order by z11.no_oh, z11.no_pp, z11.kd_brg, z11.no_seq limit 1 offset 2) nm_sup_3,
+			(select z12.kd_curr from tiprc018ts z12 where z12.no_oh = a.no_oh and z12.no_pp = a.no_pp 
+				and z12.kd_brg = a.kd_brg order by z12.no_oh, z12.no_pp, z12.kd_brg, z12.no_seq limit 1 offset 2) kd_curr_ops_3,
+			(select z13.hrg_unit_bruto from tiprc018ts z13 where z13.no_oh = a.no_oh and z13.no_pp = a.no_pp 
+				and z13.kd_brg = a.kd_brg order by z13.no_oh, z13.no_pp, z13.kd_brg, z13.no_seq limit 1 offset 2) hrg_unit_bruto_3,
+			(select z14.disc_persen from tiprc018ts z14 where z14.no_oh = a.no_oh and z14.no_pp = a.no_pp 
+				and z14.kd_brg = a.kd_brg order by z14.no_oh, z14.no_pp, z14.kd_brg, z14.no_seq limit 1 offset 2) disc_persen_3,
+			(select z15.hrg_unit from tiprc018ts z15 where z15.no_oh = a.no_oh and z15.no_pp = a.no_pp 
+				and z15.kd_brg = a.kd_brg order by z15.no_oh, z15.no_pp, z15.kd_brg, z15.no_seq limit 1 offset 2) hrg_unit_3,
+			(select z15.npk_approv from tiprc018ts z15 where z15.no_oh = a.no_oh and z15.no_pp = a.no_pp 
+				and z15.kd_brg = a.kd_brg order by z15.no_oh, z15.no_pp, z15.kd_brg, z15.no_seq limit 1 offset 2) npk_approv_3
+		from tiprc017ts a, prcv_pp b, tiprc015ts c
+		where a.no_oh = c.no_oh
+		and a.no_pp = b.no_pp  
+		and a.no_oh = $P{no_ops}
+		and to_number(a.kd_brg, '9999999') = b.pono
+	) v order by v.no_pp, v.kd_brg
+) v1]]>
+	</queryString>
+	<field name="no" class="java.lang.Long"/>
+	<field name="no_oh" class="java.lang.String"/>
+	<field name="tgl_oh" class="java.lang.String"/>
+	<field name="ket_resume" class="java.lang.String"/>
+	<field name="pic_submit" class="java.lang.String"/>
+	<field name="initial" class="java.lang.String"/>
+	<field name="no_pp" class="java.lang.String"/>
+	<field name="kd_brg" class="java.lang.String"/>
+	<field name="st_r_nr_inv" class="java.lang.String"/>
+	<field name="ket_r_nr_inv" class="java.lang.String"/>
+	<field name="budget" class="java.lang.String"/>
+	<field name="realisasi" class="java.lang.String"/>
+	<field name="sisa" class="java.lang.String"/>
+	<field name="no_ia" class="java.lang.String"/>
+	<field name="no_urut_ia" class="java.lang.Integer"/>
+	<field name="qty_pp" class="java.lang.String"/>
+	<field name="kd_sat_pp" class="java.lang.String"/>
+	<field name="item_no" class="java.lang.String"/>
+	<field name="nm_item" class="java.lang.String"/>
+	<field name="kd_sup_1" class="java.lang.String"/>
+	<field name="nm_sup_1" class="java.lang.String"/>
+	<field name="flag_nm_sup1" class="java.lang.String"/>
+	<field name="kd_curr_ops_1" class="java.lang.String"/>
+	<field name="hrg_unit_bruto_1" class="java.lang.String"/>
+	<field name="disc_persen_1" class="java.math.BigDecimal"/>
+	<field name="hrg_unit_1" class="java.lang.String"/>
+	<field name="hrg_label_sup1" class="java.lang.String"/>
+	<field name="npk_approv_1" class="java.lang.String"/>
+	<field name="hrg_labelx_sup1" class="java.lang.String"/>
+	<field name="sup1_jml_skor" class="java.lang.String"/>
+	<field name="sup1_spek" class="java.lang.String"/>
+	<field name="sup1_tothrg" class="java.lang.String"/>
+	<field name="sup1_term" class="java.lang.String"/>
+	<field name="sup1_del" class="java.lang.String"/>
+	<field name="sup1_garansi" class="java.lang.String"/>
+	<field name="sup1_aftersales" class="java.lang.String"/>
+	<field name="sup1_accesory" class="java.lang.String"/>
+	<field name="sup1_other_adv" class="java.lang.String"/>
+	<field name="sup1_ref" class="java.lang.String"/>
+	<field name="kd_sup_2" class="java.lang.String"/>
+	<field name="nm_sup_2" class="java.lang.String"/>
+	<field name="flag_nm_sup2" class="java.lang.String"/>
+	<field name="kd_curr_ops_2" class="java.lang.String"/>
+	<field name="hrg_unit_bruto_2" class="java.lang.String"/>
+	<field name="disc_persen_2" class="java.math.BigDecimal"/>
+	<field name="hrg_unit_2" class="java.lang.String"/>
+	<field name="hrg_label_sup2" class="java.lang.String"/>
+	<field name="npk_approv_2" class="java.lang.String"/>
+	<field name="hrg_labelx_sup2" class="java.lang.String"/>
+	<field name="sup2_jml_skor" class="java.lang.String"/>
+	<field name="sup2_spek" class="java.lang.String"/>
+	<field name="sup2_tothrg" class="java.lang.String"/>
+	<field name="sup2_term" class="java.lang.String"/>
+	<field name="sup2_del" class="java.lang.String"/>
+	<field name="sup2_garansi" class="java.lang.String"/>
+	<field name="sup2_aftersales" class="java.lang.String"/>
+	<field name="sup2_accesory" class="java.lang.String"/>
+	<field name="sup2_other_adv" class="java.lang.String"/>
+	<field name="sup2_ref" class="java.lang.String"/>
+	<field name="kd_sup_3" class="java.lang.String"/>
+	<field name="nm_sup_3" class="java.lang.String"/>
+	<field name="flag_nm_sup3" class="java.lang.String"/>
+	<field name="kd_curr_ops_3" class="java.lang.String"/>
+	<field name="hrg_unit_bruto_3" class="java.lang.String"/>
+	<field name="disc_persen_3" class="java.math.BigDecimal"/>
+	<field name="hrg_unit_3" class="java.lang.String"/>
+	<field name="hrg_label_sup3" class="java.lang.String"/>
+	<field name="npk_approv_3" class="java.lang.String"/>
+	<field name="hrg_labelx_sup3" class="java.lang.String"/>
+	<field name="sup3_jml_skor" class="java.lang.String"/>
+	<field name="sup3_spek" class="java.lang.String"/>
+	<field name="sup3_tothrg" class="java.lang.String"/>
+	<field name="sup3_term" class="java.lang.String"/>
+	<field name="sup3_del" class="java.lang.String"/>
+	<field name="sup3_garansi" class="java.lang.String"/>
+	<field name="sup3_aftersales" class="java.lang.String"/>
+	<field name="sup3_accesory" class="java.lang.String"/>
+	<field name="sup3_other_adv" class="java.lang.String"/>
+	<field name="sup3_ref" class="java.lang.String"/>
+	<detail>
+		<band height="43" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="27" height="43" uuid="d899078b-e3a9-4e27-93d6-f83a8b45fb86"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Tahoma" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="84" y="0" width="60" height="43" uuid="58d4cde7-bc0b-4945-b117-62a01ee9650d"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Tahoma" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{item_no}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="144" y="0" width="146" height="43" uuid="8bfda3d2-353c-4552-8ec0-fa58224b3b44"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Tahoma" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_item}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="27" y="0" width="57" height="43" uuid="eac99fe2-175e-4948-aea8-238d2245ea15"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Tahoma" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_pp}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="365" y="0" width="146" height="43" uuid="3d5b39e2-e9ef-4040-990a-47410a0a12cd"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Tahoma" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_sup_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="511" y="0" width="146" height="43" uuid="326d8671-88ee-46f3-b9af-c974bddc8abe"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Tahoma" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_sup_2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="657" y="0" width="145" height="43" uuid="8023ec3f-bd04-46d9-8a03-56aad04c2bc9"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Tahoma" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_sup_3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="330" y="0" width="35" height="43" uuid="0c766dc6-867e-408b-86c9-dddf78cb87fb"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Tahoma" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{kd_sat_pp}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="290" y="0" width="40" height="43" uuid="df9f784a-4ba6-4bd3-a466-fac0e649a505"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Tahoma" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{qty_pp}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="365" y="18" width="146" height="13" uuid="a676a540-6ed9-4da7-8d2a-a9d4a24097d1"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Tahoma" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hrg_label_sup1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="510" y="18" width="147" height="13" uuid="23063b82-8acf-40c8-8bb6-4f0f31bbfd18"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Tahoma" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hrg_label_sup2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="656" y="18" width="146" height="13" uuid="bbef2c0c-7c00-4a3b-9b62-b529599eb3e1"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Tahoma" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hrg_label_sup3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="656" y="29" width="146" height="13" uuid="76d20be7-dfd4-4951-8020-2e3ea78f5507">
+					<printWhenExpression><![CDATA[$F{flag_nm_sup3}.equals("1")]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Tahoma" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA["IDR "+$F{hrg_labelx_sup3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="365" y="29" width="146" height="13" uuid="dcb9b0c7-08e6-4569-8bd6-f434f273d795">
+					<printWhenExpression><![CDATA[$F{flag_nm_sup1}.equals("1")]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Tahoma" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA["IDR "+$F{hrg_labelx_sup1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="510" y="29" width="147" height="13" uuid="4d5695a3-7f0e-4e0a-a17b-2bea7b79b4cc">
+					<printWhenExpression><![CDATA[$F{flag_nm_sup2}.equals("1")]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Tahoma" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA["IDR "+$F{hrg_labelx_sup2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

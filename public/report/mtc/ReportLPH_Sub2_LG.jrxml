@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="812" pageHeight="250" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="812" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="b12e1461-f2c2-4eb5-91b6-f20b18705cbe">
+	<property name="ireport.zoom" value="1.4641000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="tgl1" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="lok_pt" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="shift" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="kd_line" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="kd_mesin" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="info_kerja" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="npk" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="line_stop" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT JM.KD_LINE, CASE WHEN COALESCE(JM.INIT_LINE,'-') = '-' THEN JM.NM_LINE ELSE JM.INIT_LINE END AS NM_LINE, 
+COALESCE(SUM(JM.JML_PLAN),0) J_PLAN, COALESCE(SUM(JM.JML_ACT),0) J_ACT 
+FROM (
+	SELECT KD_LINE, FNM_LINEX(KD_LINE) NM_LINE, (SELECT XL.INISIAL FROM XMLINE XL WHERE XL.XKD_LINE = MTCT_PMS.KD_LINE LIMIT 1) AS INIT_LINE, COUNT(NO_PMS) JML_PLAN, 0 JML_ACT
+	FROM MTCT_PMS
+	WHERE thn_pms||bln_pms = TO_CHAR($P{tgl1}::date,'YYYYMM') 
+	AND thn_pms||bln_pms||lpad(tgl_pms::text,2,'0') < to_char(now(),'yyyymmdd') 
+	AND KD_PLANT = $P{lok_pt}
+	AND (KD_LINE = $P{kd_line} OR $P{kd_line} = '')
+	AND (KD_MESIN = $P{kd_mesin} OR $P{kd_mesin} = '')
+	AND ST_CEK = 'T'
+	GROUP BY KD_LINE
+	UNION ALL
+	SELECT KD_LINE, FNM_LINEX(KD_LINE) NM_LINE, (SELECT XL.INISIAL FROM XMLINE XL WHERE XL.XKD_LINE =  MTCT_PMS.KD_LINE LIMIT 1) AS INIT_LINE, 0 JML_PLAN, COUNT(NO_PMS) JML_ACT
+	FROM MTCT_PMS
+	WHERE thn_pms||bln_pms = TO_CHAR($P{tgl1}::date,'YYYYMM') 
+	AND thn_pms||bln_pms||lpad(tgl_pms::text,2,'0') < to_char(now(),'yyyymmdd') 
+	AND KD_PLANT = $P{lok_pt}
+	AND (KD_LINE = $P{kd_line} OR $P{kd_line} = '')
+	AND (KD_MESIN = $P{kd_mesin} OR $P{kd_mesin} = '')
+	AND ST_CEK = 'T'
+	AND TGL_TARIK IS NOT NULL
+	GROUP BY KD_LINE
+) JM 
+GROUP BY JM.KD_LINE, JM.NM_LINE, JM.INIT_LINE
+ORDER BY 2]]>
+	</queryString>
+	<field name="kd_line" class="java.lang.String"/>
+	<field name="nm_line" class="java.lang.String"/>
+	<field name="j_plan" class="java.math.BigDecimal"/>
+	<field name="j_act" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="250">
+			<barChart>
+				<chart isShowLegend="true">
+					<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="812" height="250" uuid="df65ea5f-1255-4915-ad63-583ec8046f43"/>
+					<chartTitle position="Top">
+						<font size="12" isBold="true"/>
+						<titleExpression><![CDATA["PMS Achievement"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend position="Top"/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Plan"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{nm_line}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{j_plan}]]></valueExpression>
+						<labelExpression><![CDATA[$F{j_plan} + ""]]></labelExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["Actual"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{nm_line}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{j_act}]]></valueExpression>
+						<labelExpression><![CDATA[$F{j_act} + ""]]></labelExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="true">
+					<plot labelRotation="45.0"/>
+					<itemLabel/>
+					<categoryAxisFormat labelRotation="45.0">
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisLabelExpression><![CDATA["Jumlah"]]></valueAxisLabelExpression>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</summary>
+</jasperReport>

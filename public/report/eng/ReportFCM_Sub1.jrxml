@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="3145" pageHeight="800" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="3145" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="b12e1461-f2c2-4eb5-91b6-f20b18705cbe">
+	<property name="ireport.zoom" value="1.0000000000000104"/>
+	<property name="ireport.x" value="1228"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="engt_fcm1_id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select f2.id, f2.no_urut, f2.dim_st, f2.pros_req, f2.std, 
+f2.over_potensi, f2.over_mfg_efek, f2.over_mfg_efek_sev, (select e.kd_efek from engt_mcat_class e where e.kd_cat_clas = f2.over_mfg_efek_sev) over_mfg_efek_sev_kd_efek, f2.over_cust, (select e.nm_efek from engt_msev_efeks e where e.kd_efek = f2.over_cust) over_cust_nm_efek, f2.over_cust_sev, f2.over_class, 
+(select e.nil_sev_prod from engt_msev_prods e where e.kd_sev_prod = f2.over_class) over_nil_sev_prod, 
+f2.minus_potensi, f2.minus_mfg_efek, f2.minus_mfg_efek_sev, (select e.kd_efek from engt_mcat_class e where e.kd_cat_clas = f2.minus_mfg_efek_sev) minus_mfg_efek_sev_kd_efek,  f2.minus_cust, (select e.nm_efek from engt_msev_efeks e where e.kd_efek = f2.minus_cust) minus_cust_nm_efek, f2.minus_cust_sev, f2.minus_class, 
+(select e.nil_sev_prod from engt_msev_prods e where e.kd_sev_prod = f2.minus_class) minus_nil_sev_prod 
+from engt_fcm2s f2 
+where f2.engt_fcm1_id = $P{engt_fcm1_id} 
+order by f2.no_urut]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="no_urut" class="java.lang.Integer"/>
+	<field name="dim_st" class="java.lang.String"/>
+	<field name="pros_req" class="java.lang.String"/>
+	<field name="std" class="java.lang.String"/>
+	<field name="over_potensi" class="java.lang.String"/>
+	<field name="over_mfg_efek" class="java.lang.String"/>
+	<field name="over_mfg_efek_sev" class="java.lang.String"/>
+	<field name="over_mfg_efek_sev_kd_efek" class="java.lang.String"/>
+	<field name="over_cust" class="java.lang.String"/>
+	<field name="over_cust_nm_efek" class="java.lang.String"/>
+	<field name="over_cust_sev" class="java.lang.String"/>
+	<field name="over_class" class="java.lang.String"/>
+	<field name="over_nil_sev_prod" class="java.lang.String"/>
+	<field name="minus_potensi" class="java.lang.String"/>
+	<field name="minus_mfg_efek" class="java.lang.String"/>
+	<field name="minus_mfg_efek_sev" class="java.lang.String"/>
+	<field name="minus_mfg_efek_sev_kd_efek" class="java.lang.String"/>
+	<field name="minus_cust" class="java.lang.String"/>
+	<field name="minus_cust_nm_efek" class="java.lang.String"/>
+	<field name="minus_cust_sev" class="java.lang.String"/>
+	<field name="minus_class" class="java.lang.String"/>
+	<field name="minus_nil_sev_prod" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="30">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="25" height="30" uuid="2be32613-6829-4f76-acbf-e7f0c88e8ca2"/>
+				<box topPadding="0" leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_urut}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="25" y="0" width="100" height="30" uuid="e4a18b2f-0de2-45b3-b442-b7ab7b4dc3f8"/>
+				<box topPadding="0" leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dim_st}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="125" y="0" width="100" height="30" uuid="8d70b838-a5be-4c80-974e-c8733c27ba3a"/>
+				<box topPadding="0" leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pros_req}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="225" y="0" width="70" height="30" uuid="df74db20-7c55-46a8-ad14-28a1f790eb7b"/>
+				<box topPadding="0" leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{std}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="1995" y="0" width="80" height="30" uuid="a176b5cf-6a33-428e-bee1-fcc90d52ec78"/>
+				<box topPadding="0" leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{minus_cust_sev}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="1620" y="0" width="50" height="30" uuid="a99ad1d3-9e0a-4a4f-b819-b6c094ba3e1e"/>
+				<box topPadding="0" leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{over_nil_sev_prod}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="1385" y="0" width="75" height="30" uuid="0cd74edf-6d2a-4a39-abfa-fbdd9d9bf284"/>
+				<box topPadding="0" leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{over_mfg_efek_sev_kd_efek}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="1915" y="0" width="80" height="30" uuid="1c9d8bb7-ea4b-4728-8299-5a3c68759d55"/>
+				<box topPadding="0" leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{minus_cust}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="1840" y="0" width="75" height="30" uuid="96f0186a-ae6f-4b3f-bbb1-3cef75c60b75"/>
+				<box topPadding="0" leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{minus_mfg_efek_sev_kd_efek}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="2075" y="0" width="50" height="30" uuid="41f0e6d2-cdde-4811-b88a-940201a92acf"/>
+				<box topPadding="0" leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{minus_nil_sev_prod}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="1670" y="0" width="90" height="30" uuid="485e2252-390c-4d97-be38-9c1d219705b5"/>
+				<box topPadding="0" leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{minus_mfg_efek}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="1305" y="0" width="80" height="30" uuid="96fd06c5-1c48-4acc-b904-a513eac60eca"/>
+				<box topPadding="0" leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{over_potensi}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="1760" y="0" width="80" height="30" uuid="04a01a86-469a-44c4-a649-7416b2b2ba74"/>
+				<box topPadding="0" leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{minus_potensi}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="1540" y="0" width="80" height="30" uuid="21524bf8-1748-4fa4-92be-8222c411c8f4"/>
+				<box topPadding="0" leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{over_cust_sev}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="1215" y="0" width="90" height="30" uuid="95363260-984e-405b-90f4-140503154cde"/>
+				<box topPadding="0" leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{over_mfg_efek}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="1460" y="0" width="80" height="30" uuid="95f4d090-2c98-4b0a-bb4b-d288e46657e2"/>
+				<box topPadding="0" leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{over_cust}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement stretchType="RelativeToBandHeight" x="295" y="0" width="920" height="30" uuid="94b88eb6-57e0-4907-bea1-ae3e56bb60dd"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<subreport>
+					<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="920" height="30" uuid="5c8ee403-1508-4c75-826f-7a89886d3750"/>
+					<subreportParameter name="engt_fcm2_id">
+						<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "ReportFCM_Sub2.jasper"]]></subreportExpression>
+				</subreport>
+			</frame>
+			<frame>
+				<reportElement stretchType="RelativeToBandHeight" x="2125" y="0" width="1020" height="30" uuid="5495d12c-593f-4bf8-8b51-9406acf91ebc"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<subreport>
+					<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="1020" height="30" uuid="c4bcb449-e0a8-4250-b209-8731cdc66272"/>
+					<subreportParameter name="engt_fcm2_id">
+						<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "ReportFCM_Sub3.jasper"]]></subreportExpression>
+				</subreport>
+			</frame>
+		</band>
+	</detail>
+</jasperReport>

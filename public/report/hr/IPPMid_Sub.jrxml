@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="IPPMid_Sub" language="groovy" pageWidth="802" pageHeight="275" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="b0bbf799-9d9d-4ec0-ab7c-7af86c9e9636">
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="1080"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="no_ipp" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="revisi" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT A.NO_IPP, A.REVISI, B.DESC_ACT, 
+B.WEIGHT, B.MID_TARGET, TO_CHAR(B.DUE_DATE, 'DD-MM-YYYY') DUE_DATE, 
+B.MID_ACHIEVEMENT, B.MID_SCORE, B.MID_TSCORE, B.KODE_GRUP, B.REV_KPI,
+USRHRCORP.F_DESCGRUPKPI(B.KODE_GRUP) NM_GRUP, C.DESC_ACT KPI_DESC, C.MID_TARGET KPI_MIDTARGET, C.OYR_TARGET KPI_OYRTARGET
+FROM TCIPP001T A, TCIPP002T B, V_DATA_KPI_2011 C
+WHERE A.NO_IPP = B.NO_IPP 
+AND A.REVISI = B.REVISI
+AND B.REV_KPI = C.NO_KPI
+AND C.NPK = A.NPK
+AND A.NO_IPP = $P{no_ipp}
+AND A.REVISI = $P{revisi}
+ORDER BY CASE WHEN B.DESC_ACT LIKE '%PEOPLE MANAGEMENT%' THEN 1 ELSE 2 END, B.KD_ACT ASC]]>
+	</queryString>
+	<field name="NO_IPP" class="java.lang.String"/>
+	<field name="REVISI" class="java.math.BigDecimal"/>
+	<field name="DESC_ACT" class="java.lang.String"/>
+	<field name="WEIGHT" class="java.math.BigDecimal"/>
+	<field name="MID_TARGET" class="java.lang.String"/>
+	<field name="DUE_DATE" class="java.lang.String"/>
+	<field name="MID_ACHIEVEMENT" class="java.lang.String"/>
+	<field name="MID_SCORE" class="java.math.BigDecimal"/>
+	<field name="MID_TSCORE" class="java.math.BigDecimal"/>
+	<field name="KODE_GRUP" class="java.lang.String"/>
+	<field name="REV_KPI" class="java.lang.String"/>
+	<field name="NM_GRUP" class="java.lang.String"/>
+	<field name="KPI_DESC" class="java.lang.String"/>
+	<field name="KPI_MIDTARGET" class="java.lang.String"/>
+	<field name="KPI_OYRTARGET" class="java.lang.String"/>
+	<variable name="total_weight" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{WEIGHT}]]></variableExpression>
+	</variable>
+	<variable name="total_score" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{MID_SCORE}]]></variableExpression>
+	</variable>
+	<variable name="total_tscore" class="java.lang.Float" calculation="Sum">
+		<variableExpression><![CDATA[$F{MID_TSCORE}]]></variableExpression>
+	</variable>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="0" width="802" height="28" uuid="85e39dc0-94ac-49f4-bf28-fbfee06b7956"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+			</frame>
+			<staticText>
+				<reportElement x="26" y="1" width="145" height="25" uuid="f2fb7ea9-593d-406e-bd3f-2f059b42f1c3"/>
+				<box topPadding="1">
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+					<topPen lineWidth="0.5" lineStyle="Double"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Times New Roman" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Program / Activity]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="1" width="26" height="25" uuid="4c33329e-439f-4873-bd53-b1d367b7bf03"/>
+				<box topPadding="1">
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+					<topPen lineWidth="0.5" lineStyle="Double"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Times New Roman" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="171" y="1" width="140" height="25" uuid="e1a6cdd3-198d-4070-ac84-7f9d6561d677"/>
+				<box topPadding="1">
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+					<topPen lineWidth="0.5" lineStyle="Double"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Times New Roman" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[KPI Reference]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="666" y="1" width="65" height="25" uuid="2c90191c-42e7-482f-bf31-342a95e1bfcd"/>
+				<box topPadding="1">
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+					<topPen lineWidth="0.5" lineStyle="Double"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Times New Roman" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Score
+(R)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="311" y="1" width="35" height="25" uuid="62acbced-aef8-4197-89e3-eafd6ff0f2c9"/>
+				<box topPadding="1">
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+					<topPen lineWidth="0.5" lineStyle="Double"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Times New Roman" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Weight (%) (W)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="506" y="1" width="160" height="25" uuid="3764ec30-b751-445c-90dd-6b4ae98b5f49"/>
+				<box topPadding="1">
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+					<topPen lineWidth="0.5" lineStyle="Double"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Times New Roman" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mid Year Achievement]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="346" y="1" width="160" height="25" uuid="79adeb4c-e6ac-4a04-8942-a0e7255f2a56"/>
+				<box topPadding="1">
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+					<topPen lineWidth="0.5" lineStyle="Double"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Times New Roman" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mid Year Target]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="731" y="1" width="71" height="25" uuid="e7492ac6-bc1a-4daa-b69a-da5b489e42a0"/>
+				<box topPadding="1">
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+					<topPen lineWidth="0.5" lineStyle="Double"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Times New Roman" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Score
+(W x R)]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="0" width="802" height="20" uuid="27a1061f-15c1-4cfc-81f5-cc7c78d88ba9"/>
+				<frame>
+					<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="26" height="20" isPrintWhenDetailOverflows="true" uuid="fa308e74-36b0-4b46-8f08-85622dd5814b"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+				</frame>
+				<frame>
+					<reportElement stretchType="RelativeToBandHeight" x="26" y="0" width="145" height="20" isPrintWhenDetailOverflows="true" uuid="a7cd6bd0-69c0-4fe3-a1a2-72abd96ca39c"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+				</frame>
+				<frame>
+					<reportElement stretchType="RelativeToBandHeight" x="171" y="0" width="140" height="20" isPrintWhenDetailOverflows="true" uuid="318c85d2-8e2e-49d1-880f-cdcb2e525f9a"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+				</frame>
+				<frame>
+					<reportElement stretchType="RelativeToBandHeight" x="311" y="0" width="35" height="20" isPrintWhenDetailOverflows="true" uuid="ac438a37-4717-4ca2-8475-c01287aa9007"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+				</frame>
+				<frame>
+					<reportElement stretchType="RelativeToBandHeight" x="346" y="0" width="160" height="20" isPrintWhenDetailOverflows="true" uuid="b5bd6105-0e66-4bb3-871d-c76ae8d1cb2b"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+				</frame>
+				<frame>
+					<reportElement stretchType="RelativeToBandHeight" x="506" y="0" width="160" height="20" isPrintWhenDetailOverflows="true" uuid="9754f0be-819b-4978-990e-17adbfa82f2a"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+				</frame>
+				<frame>
+					<reportElement stretchType="RelativeToBandHeight" x="666" y="0" width="65" height="20" isPrintWhenDetailOverflows="true" uuid="0f550765-dac5-4fc4-b1b0-01f586a6e361"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+				</frame>
+				<frame>
+					<reportElement stretchType="RelativeToBandHeight" x="731" y="0" width="71" height="20" isPrintWhenDetailOverflows="true" uuid="9ab19afa-161d-4792-825a-893cf0d1c176"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+				</frame>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="26" height="20" uuid="a6e2bfcd-6967-4f24-b1c6-737228550177"/>
+					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font fontName="Serif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="26" y="0" width="145" height="20" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="051f2007-2e13-4801-ba2c-736f0ae439f1"/>
+					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement verticalAlignment="Top">
+						<font fontName="Serif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NM_GRUP} == null ? "-" : $F{NM_GRUP} + '\n' + $F{DESC_ACT}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="171" y="0" width="140" height="20" uuid="95b849fe-1e59-46ad-b5e2-58757b6d9a25"/>
+					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement verticalAlignment="Top">
+						<font fontName="Serif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{REV_KPI} + " - " + $F{KPI_DESC} + "\n" +
+
+"<>Mid Year Target: " + ($F{KPI_MIDTARGET} == null ? "" : $F{KPI_MIDTARGET}) + "\n" +
+"<>One Year Target: " + ($F{KPI_OYRTARGET} == null ? "" : $F{KPI_OYRTARGET})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="311" y="0" width="35" height="20" uuid="cb68a3a6-d0ce-4193-8b89-749056983f9a"/>
+					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font fontName="Serif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{WEIGHT}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="346" y="0" width="160" height="20" uuid="712f1411-0f51-4b9a-a063-7e32a87c339e"/>
+					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement verticalAlignment="Top">
+						<font fontName="Serif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{MID_TARGET}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="506" y="0" width="160" height="20" uuid="656e3598-50ff-4736-ace6-16b703090c2c"/>
+					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement verticalAlignment="Top">
+						<font fontName="Serif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{MID_ACHIEVEMENT}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="666" y="0" width="65" height="20" uuid="1e1b564c-8bd3-475a-88a9-c72bb5d07f09"/>
+					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font fontName="Serif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{MID_SCORE}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="###0.00" isBlankWhenNull="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="731" y="0" width="71" height="20" uuid="58257aad-29c4-4f1e-bc77-543cc67d5155"/>
+					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font fontName="Serif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{MID_TSCORE}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="15">
+			<subreport>
+				<reportElement x="0" y="0" width="802" height="15" uuid="664274c8-9696-4640-b506-94ced6d5d3c8"/>
+				<subreportParameter name="revisi">
+					<subreportParameterExpression><![CDATA[$F{REVISI}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="no_ipp">
+					<subreportParameterExpression><![CDATA[$F{NO_IPP}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "IPPMid_Sub1.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</lastPageFooter>
+</jasperReport>

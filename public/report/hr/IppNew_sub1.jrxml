@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="IppNew_sub1" language="groovy" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="81f015fb-1b7d-4beb-ac3c-04a9834efc37">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="495"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="hrdt_ipp1s_id" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select sum(weight) total_weight from hrdt_ipp2s where hrdt_ipp1s_id = $P{hrdt_ipp1s_id}]]>
+	</queryString>
+	<field name="total_weight" class="java.math.BigDecimal"/>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField isStretchWithOverflow="true" evaluationTime="Report">
+				<reportElement stretchType="RelativeToTallestObject" x="434" y="0" width="32" height="15" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="c35161e3-3150-4372-874f-0ee5aca92b4e"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="0" rightPadding="1">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Serif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_weight}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="1410" pageHeight="802" orientation="Landscape" columnWidth="1410" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isSummaryNewPage="true" uuid="b12e1461-f2c2-4eb5-91b6-f20b18705cbe">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select distinct id_ref, tahun, kd_pt, kode, item, strategy_priority, strategy, coy_kpi, target, initiatives, div, due_date, kd_item, kd_item_urut, kd_div, fnm_div(kd_div) nm_div, catatan_q1, catatan_q2, catatan_q3, catatan_q4 
+from (
+	select k2.kd_item, (case when k2.kd_item = 'FP' then 1 when k2.kd_item = 'CS' then 2 when k2.kd_item = 'IP' then 3 when k2.kd_item = 'LG' then 4 when k2.kd_item = 'CR' then 5 else 6 end) kd_item_urut, k2.id, r.id id_ref, r.tahun, r.kd_pt, r.kode, r.item, r.strategy_priority, r.strategy, r.coy_kpi, r.target, r.initiatives, r.div, r.due_date, k1.kd_div, coalesce(k1.catatan_q1,'-') catatan_q1, coalesce(k1.catatan_q2,'-') catatan_q2, coalesce(k1.catatan_q3,'-') catatan_q3, coalesce(k1.catatan_q4,'-') catatan_q4 
+	from hrdt_kpis k1, hrdt_kpi_acts k2, hrdm_kpi_refs r 
+	where k1.id = k2.hrdt_kpi_id 
+	and k2.kpi_ref = r.id 
+	and k1.id = $P{id}
+	order by 2, k2.id
+) as v 
+order by kd_item_urut, id_ref]]>
+	</queryString>
+	<field name="id_ref" class="java.lang.Integer"/>
+	<field name="tahun" class="java.lang.String"/>
+	<field name="kd_pt" class="java.lang.String"/>
+	<field name="kode" class="java.lang.String"/>
+	<field name="item" class="java.lang.String"/>
+	<field name="strategy_priority" class="java.lang.String"/>
+	<field name="strategy" class="java.lang.String"/>
+	<field name="coy_kpi" class="java.lang.String"/>
+	<field name="target" class="java.lang.String"/>
+	<field name="initiatives" class="java.lang.String"/>
+	<field name="div" class="java.lang.String"/>
+	<field name="due_date" class="java.lang.String"/>
+	<field name="kd_item" class="java.lang.String"/>
+	<field name="kd_item_urut" class="java.lang.Integer"/>
+	<field name="kd_div" class="java.lang.String"/>
+	<field name="nm_div" class="java.lang.String"/>
+	<field name="catatan_q1" class="java.lang.String"/>
+	<field name="catatan_q2" class="java.lang.String"/>
+	<field name="catatan_q3" class="java.lang.String"/>
+	<field name="catatan_q4" class="java.lang.String"/>
+	<group name="group_kd_item">
+		<groupExpression><![CDATA[$F{kd_item}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField>
+					<reportElement x="0" y="0" width="1410" height="20" uuid="d4033491-77c0-4f1b-8098-cedb1167ff99"/>
+					<box leftPadding="5">
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{kd_item}.equals("FP") ? "I. FINANCIAL PERFORMANCE" : ($F{kd_item}.equals("CS") ? "II. CUSTOMER" : ($F{kd_item}.equals("IP") ? "III. INTERNAL PROCESS" : ($F{kd_item}.equals("LG") ? "IV. LEARNING & GROWTH" : ($F{kd_item}.equals("CR") ? "V. COMPLIANCE REPORTING" : "-"))))]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="70" splitType="Stretch">
+			<staticText>
+				<reportElement x="200" y="40" width="210" height="30" uuid="d3411b3c-0ec7-4857-be8e-6644266b1723"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[STRATEGY PRIORITY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1080" y="40" width="220" height="30" uuid="de9d7b65-8e57-4108-83e4-7f6826208c00"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INITIATIVE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="960" y="40" width="120" height="30" uuid="ecface2e-5140-4037-82fd-36f31fcf0a15"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TARGET]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="660" y="40" width="300" height="30" uuid="78a4b155-c736-4ef7-9d64-582655539a98"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COY KPI]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="410" y="40" width="250" height="30" uuid="e907afbf-fe40-4e08-be5e-0980e40e49d8"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[STRATEGY]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="0" width="1410" height="40" uuid="22460cc4-99a3-4ec2-9478-61d73f180c14"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["KPI Reference " + $F{kd_pt} + " " + $F{tahun}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1300" y="40" width="110" height="30" uuid="7a4789d6-024f-45d3-8f41-31dd6e0dbfde"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIV]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="80" height="30" uuid="ce448c03-fa8f-4d16-b902-9d3a47214ca3"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[KODE KPI]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="40" width="120" height="30" uuid="4573431f-a6f3-465c-89e2-59e93ffa2aa3"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ITEM]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="410" y="0" width="250" height="30" uuid="a9fce03f-8ad4-4212-a961-6c897d8efd63"/>
+				<box topPadding="1" leftPadding="2">
+					<topPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{strategy}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="200" y="0" width="210" height="30" uuid="8aa66397-bdad-4523-be29-16eef3666ba4"/>
+				<box topPadding="1" leftPadding="1">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{strategy_priority}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="660" y="0" width="300" height="30" uuid="98c5e708-91c8-49df-8bfb-f4b96697f728"/>
+				<box topPadding="1" leftPadding="2">
+					<topPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{coy_kpi}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="960" y="0" width="120" height="30" uuid="1420dee5-fd10-4d08-ae64-c5afa1af141a"/>
+				<box topPadding="1" leftPadding="2">
+					<topPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{target}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="1080" y="0" width="220" height="30" uuid="cd8d20d6-d5e6-438d-a6b1-ff0623d5891b"/>
+				<box topPadding="1" leftPadding="2">
+					<topPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{initiatives}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="1300" y="0" width="110" height="30" uuid="bfe267cc-a8be-4304-81a8-67aec000f6b3"/>
+				<box topPadding="1" leftPadding="2">
+					<topPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{div}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="80" height="30" uuid="273939c8-4dd1-44ae-9e02-b7a226094748"/>
+				<box topPadding="1" leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{kode}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="80" y="0" width="120" height="30" uuid="22175d97-01e6-4fb9-8e73-75af2df0ec46"/>
+				<box topPadding="1" leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{item}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="13">
+			<textField pattern="dd MMM yyyy HH:mm:ss">
+				<reportElement x="0" y="0" width="37" height="13" uuid="e88e458d-abf2-47fd-9e31-f1df1d120d09"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Printed on "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1290" y="0" width="80" height="13" uuid="b9b2be06-d002-4564-aeb2-ce8d9dc3c15a"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd MMM yyyy HH:mm:ss">
+				<reportElement x="37" y="0" width="214" height="13" uuid="238cad31-38f9-4b2c-804a-ead4a03564bb"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="1370" y="0" width="40" height="13" uuid="69c2efe0-1dee-4fe1-a081-11a0cbd77e2a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="255">
+			<textField>
+				<reportElement x="0" y="0" width="1410" height="30" uuid="02476f6b-f793-422a-bea2-7bd2bd2084c5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Catatan Review KPI DIVISION " + $F{nm_div} + " - " + $F{kd_pt} + " TAHUN " + $F{tahun}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="30" width="67" height="15" uuid="43d08b9e-6427-4ce0-84cf-fd9d28a34d8a"/>
+				<box leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Catatan Q1 :]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="10" y="50" width="1380" height="20" uuid="ab16e4e5-6ac9-4cd8-94b9-166dbfc637e6"/>
+				<box leftPadding="5"/>
+				<textElement>
+					<font isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{catatan_q1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="10" y="110" width="1380" height="20" uuid="d822193c-7f78-4956-9e7c-673d29ecfb58"/>
+				<box leftPadding="5"/>
+				<textFieldExpression><![CDATA[$F{catatan_q2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="5" y="90" width="67" height="15" uuid="0893fc98-551c-4fda-9cdf-e2078b34626c"/>
+				<box leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Catatan Q2 :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="5" y="150" width="67" height="15" uuid="32c30fdf-c0f9-40af-b889-79d776b3d363"/>
+				<box leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Catatan Q3 :]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="10" y="170" width="1380" height="20" uuid="7b7aed04-bf68-40ef-bac3-87673e850efe"/>
+				<box leftPadding="5"/>
+				<textFieldExpression><![CDATA[$F{catatan_q3}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="5" y="210" width="67" height="15" uuid="20d5d4e4-8c80-4f46-b4b8-9b27e239c1a7"/>
+				<box leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Catatan Q4 :]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="10" y="230" width="1380" height="20" uuid="f6678469-51bd-42af-b75d-938fb33fb9b7"/>
+				<box leftPadding="5"/>
+				<textFieldExpression><![CDATA[$F{catatan_q4}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>
